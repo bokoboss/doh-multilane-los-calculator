@@ -197,6 +197,13 @@
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save" viewBox="0 0 16 16"><path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v2.5a.5.5 0 0 1-1 0V2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/><path d="M4.5 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/></svg>
                 บันทึก
             </button>
+            <button id="menu-load-sample-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-play" viewBox="0 0 16 16">
+                    <path d="M6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.429z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/>
+                </svg>
+                โหลดข้อมูลตัวอย่าง
+            </button>
             <button id="menu-export-report-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-word" viewBox="0 0 16 16"><path d="M5.48 6.626h.882l.922 1.954.921-1.954h.882v4.002h-.79v-2.277l-1.018 2.179h-.13l-1.017-2.179v2.277h-.79V6.626z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2a1 1 0 0 0 1 1h2l-3-3z"/></svg>
                 ส่งออกรายงาน
@@ -220,20 +227,20 @@
                     <section>
                         <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b border-gray-200 pb-3">ข้อมูลภาพรวมโครงการ</h3>
                         <div class="space-y-6">
-                             <div>
-                                 <label for="projectName" class="block text-sm font-medium text-gray-700">ชื่อโครงการ/ตำแหน่ง</label>
-                                 <input type="text" id="projectName" placeholder="เช่น ทางหลวงหมายเลข 4 ช่วง กม. 10+000 - 15+000" class="minimal-input w-full">
-                            </div>
+                                <div>
+                                    <label for="projectName" class="block text-sm font-medium text-gray-700">ชื่อโครงการ/ตำแหน่ง</label>
+                                    <input type="text" id="projectName" placeholder="เช่น ทางหลวงหมายเลข 4 ช่วง กม. 10+000 - 15+000" class="minimal-input w-full">
+                                </div>
                             <!-- Shared Data -->
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                                  <div>
-                                      <label for="phf" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                          PHF
-                                          <span class="tooltip-icon">?</span>
-                                          <span class="tooltip-text"><strong>ตัวประกอบชั่วโมงเร่งด่วน (PHF):</strong> อัตราส่วนของปริมาณจราจรในชั่วโมงเร่งด่วนต่ออัตราการไหลสูงสุดใน 15 นาที (0.25-1.0)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.95<br>- พื้นที่นอกเมือง: 0.90</span>
-                                      </label>
-                                      <input type="number" id="phf" placeholder="0.00" step="0.01" min="0" max="1.0" class="minimal-input w-full">
-                                  </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                    <div>
+                                        <label for="phf" class="block text-sm font-medium text-gray-700 tooltip-container">
+                                            PHF
+                                            <span class="tooltip-icon">?</span>
+                                            <span class="tooltip-text"><strong>ตัวประกอบชั่วโมงเร่งด่วน (PHF):</strong> อัตราส่วนของปริมาณจราจรในชั่วโมงเร่งด่วนต่ออัตราการไหลสูงสุดใน 15 นาที (0.25-1.0)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.95<br>- พื้นที่นอกเมือง: 0.90</span>
+                                        </label>
+                                        <input type="number" id="phf" placeholder="0.00" step="0.01" min="0" max="1.0" class="minimal-input w-full">
+                                    </div>
                                 <div>
                                     <label for="kFactor" class="block text-sm font-medium text-gray-700 tooltip-container">
                                         K-Factor
@@ -242,13 +249,13 @@
                                     </label>
                                     <input type="number" id="kFactor" placeholder="0.00" step="0.01" min="0" max="1.0" class="minimal-input w-full">
                                 </div>
-                                  <div>
-                                      <label class="block text-sm font-medium text-gray-700">เกาะกลาง</label>
-                                      <div class="mt-2 flex space-x-6">
-                                          <label class="flex items-center"><input type="radio" name="medianType" value="0" checked class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">มี</span></label>
-                                          <label class="flex items-center"><input type="radio" name="medianType" value="4.3" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">ไม่มี</span></label>
-                                      </div>
-                                  </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">เกาะกลาง</label>
+                                        <div class="mt-2 flex space-x-6">
+                                            <label class="flex items-center"><input type="radio" name="medianType" value="0" checked class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">มี</span></label>
+                                            <label class="flex items-center"><input type="radio" name="medianType" value="4.3" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">ไม่มี</span></label>
+                                        </div>
+                                    </div>
                             </div>
                             <!-- AADT Data -->
                             <div>
@@ -278,40 +285,40 @@
                             <div>
                                 <h4 class="text-md font-semibold text-blue-600 mb-4">ทิศทางขาเข้า</h4>
                                 <div class="space-y-4">
-                                     <div>
-                                         <label for="in-laneWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความกว้างช่องจราจร (เมตร)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span>
-                                         </label>
-                                         <input type="number" id="in-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                     <div>
-                                        <label for="in-shoulderWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความกว้างไหล่ทางรวม (เมตร)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span>
-                                        </label>
-                                        <input type="number" id="in-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                     <div><label for="in-numLanes" class="block text-sm font-medium text-gray-700">จำนวนช่องจราจร (N)</label><input type="number" id="in-numLanes" placeholder="2" min="1" class="minimal-input w-full"></div>
-                                     <div><label for="in-gradePercent" class="block text-sm font-medium text-gray-700">ความลาดชัน (%)</label><input type="number" id="in-gradePercent" placeholder="0.0" step="0.1" class="minimal-input w-full"></div>
-                                     <div>
-                                        <label for="in-accessPointDensity" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span>
-                                        </label>
-                                        <input type="number" id="in-accessPointDensity" placeholder="0.0" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                     <div>
-                                        <label for="in-directionalSplit" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            สัดส่วนจราจร (D)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.52 – 0.62<br>- พื้นที่นอกเมือง: 0.50 – 0.70</span>
-                                        </label>
-                                        <input type="number" id="in-directionalSplit" placeholder="0.50" step="0.01" min="0" max="1.0" class="minimal-input w-full">
-                                    </div>
+                                        <div>
+                                            <label for="in-laneWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
+                                                ความกว้างช่องจราจร (เมตร)
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span>
+                                             </label>
+                                            <input type="number" id="in-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
+                                        </div>
+                                        <div>
+                                            <label for="in-shoulderWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
+                                                ความกว้างไหล่ทางรวม (เมตร)
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span>
+                                            </label>
+                                            <input type="number" id="in-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
+                                        </div>
+                                        <div><label for="in-numLanes" class="block text-sm font-medium text-gray-700">จำนวนช่องจราจร (N)</label><input type="number" id="in-numLanes" placeholder="2" min="1" class="minimal-input w-full"></div>
+                                        <div><label for="in-gradePercent" class="block text-sm font-medium text-gray-700">ความลาดชัน (%)</label><input type="number" id="in-gradePercent" placeholder="0.0" step="0.1" class="minimal-input w-full"></div>
+                                        <div>
+                                            <label for="in-accessPointDensity" class="block text-sm font-medium text-gray-700 tooltip-container">
+                                                ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span>
+                                            </label>
+                                            <input type="number" id="in-accessPointDensity" placeholder="0.0" step="0.1" min="0" class="minimal-input w-full">
+                                        </div>
+                                        <div>
+                                            <label for="in-directionalSplit" class="block text-sm font-medium text-gray-700 tooltip-container">
+                                                สัดส่วนจราจร (D)
+                                                <span class="tooltip-icon">?</span>
+                                                <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.52 – 0.62<br>- พื้นที่นอกเมือง: 0.50 – 0.70</span>
+                                            </label>
+                                            <input type="number" id="in-directionalSplit" placeholder="0.50" step="0.01" min="0" max="1.0" class="minimal-input w-full">
+                                        </div>
                                 </div>
                             </div>
                             <!-- Outbound Column -->
@@ -344,7 +351,7 @@
                                         </label>
                                         <input type="number" id="out-accessPointDensity" placeholder="0.0" step="0.1" min="0" class="minimal-input w-full">
                                     </div>
-                                     <div><label for="out-directionalSplit-display" class="block text-sm font-medium text-gray-700">สัดส่วนจราจร (D)</label><input type="number" id="out-directionalSplit-display" value="0.50" class="minimal-input w-full bg-gray-100" readonly></div>
+                                    <div><label for="out-directionalSplit-display" class="block text-sm font-medium text-gray-700">สัดส่วนจราจร (D)</label><input type="number" id="out-directionalSplit-display" value="0.50" class="minimal-input w-full bg-gray-100" readonly></div>
                                 </div>
                             </div>
                         </div>
@@ -358,26 +365,26 @@
                              <label for="manualPceToggle" class="ml-3 block text-sm text-gray-900">กำหนดค่า PCE เอง</label>
                          </div>
                          <div id="manualPceSection" class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                             <div>
-                                 <h4 class="text-md font-semibold text-blue-600 mb-2">PCE ขาเข้า</h4>
-                                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="in-pce-group">
-                                     <label class="text-sm self-end">MC/TC:</label><input type="number" name="in-pce" id="in-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">MB/HB:</label><input type="number" name="in-pce" id="in-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">LT/LB:</label><input type="number" name="in-pce" id="in-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">MT/HT:</label><input type="number" name="in-pce" id="in-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">FT/ST:</label><input type="number" name="in-pce" id="in-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                 </div>
-                             </div>
-                             <div>
-                                 <h4 class="text-md font-semibold text-green-600 mb-2">PCE ขาออก</h4>
-                                 <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="out-pce-group">
-                                     <label class="text-sm self-end">MC/TC:</label><input type="number" name="out-pce" id="out-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">MB/HB:</label><input type="number" name="out-pce" id="out-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">LT/LB:</label><input type="number" name="out-pce" id="out-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">MT/HT:</label><input type="number" name="out-pce" id="out-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                     <label class="text-sm self-end">FT/ST:</label><input type="number" name="out-pce" id="out-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                 </div>
-                             </div>
+                               <div>
+                                   <h4 class="text-md font-semibold text-blue-600 mb-2">PCE ขาเข้า</h4>
+                                   <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="in-pce-group">
+                                       <label class="text-sm self-end">MC/TC:</label><input type="number" name="in-pce" id="in-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">MB/HB:</label><input type="number" name="in-pce" id="in-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">LT/LB:</label><input type="number" name="in-pce" id="in-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">MT/HT:</label><input type="number" name="in-pce" id="in-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">FT/ST:</label><input type="number" name="in-pce" id="in-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                   </div>
+                               </div>
+                               <div>
+                                   <h4 class="text-md font-semibold text-green-600 mb-2">PCE ขาออก</h4>
+                                   <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="out-pce-group">
+                                       <label class="text-sm self-end">MC/TC:</label><input type="number" name="out-pce" id="out-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">MB/HB:</label><input type="number" name="out-pce" id="out-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">LT/LB:</label><input type="number" name="out-pce" id="out-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">MT/HT:</label><input type="number" name="out-pce" id="out-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-end">FT/ST:</label><input type="number" name="out-pce" id="out-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                   </div>
+                               </div>
                          </div>
                     </section>
                 </div>
@@ -386,122 +393,122 @@
             <!-- ========== Result Column ========== -->
             <div class="lg:col-span-1">
                  <div class="card">
-                     <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-6">
-                         <h2 class="text-xl font-bold text-gray-800">ผลการวิเคราะห์</h2>
-                     </div>
-                     
-                     <div class="space-y-6">
-                         <!-- FFS Section -->
-                         <section>
-                             <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวัดค่าความเร็วการไหลอิสระ (FFS)</h3>
-                             <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label"></span>
-                                     <span class="result-label text-center font-semibold text-blue-600">ขาเข้า</span>
-                                     <span class="result-label text-center font-semibold text-green-600">ขาออก</span>
+                         <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-6">
+                             <h2 class="text-xl font-bold text-gray-800">ผลการวิเคราะห์</h2>
+                         </div>
+                         
+                         <div class="space-y-6">
+                             <!-- FFS Section -->
+                             <section>
+                                 <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวัดค่าความเร็วการไหลอิสระ (FFS)</h3>
+                                 <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label"></span>
+                                         <span class="result-label text-center font-semibold text-blue-600">ขาเข้า</span>
+                                         <span class="result-label text-center font-semibold text-green-600">ขาออก</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">BFFS</span>
+                                         <span id="in-bbfs-val" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-bbfs-val" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ค่าปรับแก้ f_LW</span>
+                                         <span id="in-flw-val" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-flw-val" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ค่าปรับแก้ f_LC</span>
+                                         <span id="in-flc-val" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-flc-val" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ค่าปรับแก้ f_M</span>
+                                         <span id="in-fm-val" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-fm-val" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ค่าปรับแก้ f_APD</span>
+                                         <span id="in-fapd-val" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-fapd-val" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
+                                         <span class="result-label">FFS สุทธิ (กม./ชม.)</span>
+                                         <span id="in-ffs-result" class="result-value text-center text-blue-600">-</span>
+                                         <span id="out-ffs-result" class="result-value text-center text-green-600">-</span>
+                                     </div>
                                  </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">BFFS</span>
-                                     <span id="in-bbfs-val" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-bbfs-val" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ค่าปรับแก้ f_LW</span>
-                                     <span id="in-flw-val" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-flw-val" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ค่าปรับแก้ f_LC</span>
-                                     <span id="in-flc-val" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-flc-val" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ค่าปรับแก้ f_M</span>
-                                     <span id="in-fm-val" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-fm-val" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ค่าปรับแก้ f_APD</span>
-                                     <span id="in-fapd-val" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-fapd-val" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                     <span class="result-label">FFS สุทธิ (กม./ชม.)</span>
-                                     <span id="in-ffs-result" class="result-value text-center text-blue-600">-</span>
-                                     <span id="out-ffs-result" class="result-value text-center text-green-600">-</span>
-                                 </div>
-                             </div>
-                         </section>
+                             </section>
 
-                         <!-- Flow Rate Section -->
-                         <section>
-                              <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวิเคราะห์อัตราการไหลจราจร</h3>
-                              <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ปริมาณจราจร V (PCU/วัน)</span>
-                                     <span id="in-daily-pcu" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-daily-pcu" class="result-value text-center text-gray-800">-</span>
+                             <!-- Flow Rate Section -->
+                             <section>
+                                  <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวิเคราะห์อัตราการไหลจราจร</h3>
+                                  <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ปริมาณจราจร V (PCU/วัน)</span>
+                                         <span id="in-daily-pcu" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-daily-pcu" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
+                                         <span class="result-label">อัตราการไหล v (PCU/ชม./ช่อง)</span>
+                                         <span id="in-flow-rate-result" class="result-value text-center text-blue-600">-</span>
+                                         <span id="out-flow-rate-result" class="result-value text-center text-green-600">-</span>
+                                     </div>
                                  </div>
-                                 <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                     <span class="result-label">อัตราการไหล v (PCU/ชม./ช่อง)</span>
-                                     <span id="in-flow-rate-result" class="result-value text-center text-blue-600">-</span>
-                                     <span id="out-flow-rate-result" class="result-value text-center text-green-600">-</span>
-                                 </div>
-                             </div>
-                         </section>
+                             </section>
 
-                         <!-- LOS and Capacity Assessment Section -->
-                         <section>
-                             <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การประเมินระดับการให้บริการและความจุ</h3>
-                             <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                  <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ความจุต่อทิศทาง (PCU/ชม.)</span>
-                                     <span id="in-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
+                             <!-- LOS and Capacity Assessment Section -->
+                             <section>
+                                 <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การประเมินระดับการให้บริการและความจุ</h3>
+                                 <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
+                                       <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ความจุต่อทิศทาง (PCU/ชม.)</span>
+                                         <span id="in-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ATS (กม./ชม.)</span>
+                                         <span id="in-ats-result" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-ats-result" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                     <div class="grid grid-cols-3 gap-4">
+                                         <span class="result-label">ความหนาแน่น D (PCU/กม./ช่อง)</span>
+                                         <span id="in-density-result" class="result-value text-center text-gray-800">-</span>
+                                         <span id="out-density-result" class="result-value text-center text-gray-800">-</span>
+                                     </div>
+                                      <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
+                                         <span class="result-label">ระดับการให้บริการ (LOS)</span>
+                                         <div class="text-center"><span id="in-los-result" class="los-badge">?</span></div>
+                                         <div class="text-center"><span id="out-los-result" class="los-badge">?</span></div>
+                                     </div>
                                  </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ATS (กม./ชม.)</span>
-                                     <span id="in-ats-result" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-ats-result" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                 <div class="grid grid-cols-3 gap-4">
-                                     <span class="result-label">ความหนาแน่น D (PCU/กม./ช่อง)</span>
-                                     <span id="in-density-result" class="result-value text-center text-gray-800">-</span>
-                                     <span id="out-density-result" class="result-value text-center text-gray-800">-</span>
-                                 </div>
-                                  <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                     <span class="result-label">ระดับการให้บริการ (LOS)</span>
-                                     <div class="text-center"><span id="in-los-result" class="los-badge">?</span></div>
-                                     <div class="text-center"><span id="out-los-result" class="los-badge">?</span></div>
-                                 </div>
-                             </div>
-                         </section>
+                             </section>
 
-                         <!-- Gemini AI Analysis Section -->
-                         <section>
-                            <div class="text-center mt-4 flex items-center justify-center gap-2">
-                                <button id="gemini-analyze-button" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                                    ✨ วิเคราะห์ผลลัพธ์ด้วย Gemini
-                                </button>
-                                <button id="edit-api-key-button" class="p-2 text-gray-500 hover:bg-gray-200 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
-                                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311a1.464 1.464 0 0 1 0 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105 0l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 0-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105 0l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div id="gemini-analysis-container" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
-                                <div id="gemini-loader" class="text-center hidden">
-                                    <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    <p class="text-sm text-gray-600 mt-2">กำลังวิเคราะห์ข้อมูลด้วย Gemini...</p>
-                                </div>
-                                <div id="gemini-result" class="prose prose-sm max-w-none"></div>
-                            </div>
-                         </section>
-                     </div>
-                 </div>
+                             <!-- Gemini AI Analysis Section -->
+                             <section>
+                                 <div class="text-center mt-4 flex items-center justify-center gap-2">
+                                     <button id="gemini-analyze-button" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                         ✨ วิเคราะห์ผลลัพธ์ด้วย Gemini
+                                     </button>
+                                     <button id="edit-api-key-button" class="p-2 text-gray-500 hover:bg-gray-200 rounded-full">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                             <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311a1.464 1.464 0 0 1 0 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105 0l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 0-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105 0l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                         </svg>
+                                     </button>
+                                 </div>
+                                 <div id="gemini-analysis-container" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
+                                     <div id="gemini-loader" class="text-center hidden">
+                                         <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                         </svg>
+                                         <p class="text-sm text-gray-600 mt-2">กำลังวิเคราะห์ข้อมูลด้วย Gemini...</p>
+                                     </div>
+                                     <div id="gemini-result" class="prose prose-sm max-w-none"></div>
+                                 </div>
+                             </section>
+                         </div>
+                    </div>
             </div>
         </div>
 
@@ -803,6 +810,35 @@
             projectNameInput.addEventListener('input', () => {
                 saveButton.disabled = projectNameInput.value.trim() === '';
             });
+
+            function loadData(data) {
+                try {
+                    inputIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (data[id] !== undefined) {
+                            if (el.type === 'checkbox') {
+                                el.checked = data[id];
+                            } else {
+                                el.value = data[id];
+                            }
+                        }
+                    });
+                    radioNames.forEach(name => {
+                        if (data[name]) {
+                            document.querySelector(`input[name="${name}"][value="${data[name]}"]`).checked = true;
+                        }
+                    });
+                    
+                    document.getElementById('manualPceToggle').dispatchEvent(new Event('change'));
+                    masterAnalyze();
+                    aadtInputIds.forEach(id => document.getElementById(id).dispatchEvent(new Event('blur')));
+                    projectNameInput.dispatchEvent(new Event('input')); 
+                    showToast('โหลดข้อมูลสำเร็จ!', 'success');
+                } catch (error) {
+                    console.error("Error loading data:", error);
+                    showToast('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'error');
+                }
+            }
             
             function saveProjectToFile() {
                 const projectName = projectNameInput.value.trim();
@@ -852,24 +888,7 @@
                 reader.onload = (e) => {
                     try {
                         const data = JSON.parse(e.target.result);
-                        
-                        inputIds.forEach(id => {
-                            const el = document.getElementById(id);
-                            if (data[id] !== undefined) {
-                                if (el.type === 'checkbox') el.checked = data[id];
-                                else el.value = data[id];
-                            }
-                        });
-                        radioNames.forEach(name => {
-                            if(data[name]) document.querySelector(`input[name="${name}"][value="${data[name]}"]`).checked = true;
-                        });
-                        
-                        document.getElementById('manualPceToggle').dispatchEvent(new Event('change'));
-                        masterAnalyze();
-                        aadtInputIds.forEach(id => document.getElementById(id).dispatchEvent(new Event('blur'))); // Format AADT fields after load
-                        projectNameInput.dispatchEvent(new Event('input'));
-                        showToast('นำเข้าข้อมูลสำเร็จ!', 'success');
-
+                        loadData(data);
                     } catch (error) {
                         console.error("Error parsing project file:", error);
                         showToast('ไฟล์ที่นำเข้าไม่ถูกต้อง', 'error');
@@ -881,6 +900,21 @@
             
             saveButton.addEventListener('click', saveProjectToFile);
             
+            // --- Sample Data ---
+            const sampleData = {
+                "projectName": "ตัวอย่าง: ทางหลวงหมายเลข 4 (เพชรเกษม)", "phf": "0.92", "kFactor": "0.1",
+                "aadt_pc": "15000", "aadt_mctc": "2500", "aadt_mbhb": "500", "aadt_ltlb": "1200", "aadt_mtht": "800", "aadt_ftst": "400",
+                "in-laneWidth": "3.5", "in-shoulderWidth": "2.5", "in-numLanes": "2", "in-gradePercent": "1", "in-accessPointDensity": "3", "in-directionalSplit": "0.55",
+                "out-laneWidth": "3.5", "out-shoulderWidth": "2.5", "out-numLanes": "2", "out-gradePercent": "-1", "out-accessPointDensity": "3",
+                "manualPceToggle": false, "in-pce-mctc": "", "in-pce-mbhb": "", "in-pce-ltlb": "", "in-pce-mtht": "", "in-pce-ftst": "",
+                "out-pce-mctc": "", "out-pce-mbhb": "", "out-pce-ltlb": "", "out-pce-mtht": "", "out-pce-ftst": "",
+                "medianType": "0"
+            };
+
+            document.getElementById('menu-load-sample-button').addEventListener('click', () => {
+                loadData(sampleData);
+            });
+
             // Initial setup on load
             togglePceInputs();
 
@@ -1177,7 +1211,7 @@
                             new Paragraph(`ความเร็วการไหลอิสระ ทิศทางขาออก = ${data.out_bbfs} - ${data.out_flw} - ${data.out_flc} - ${data.out_fm} - ${data.out_fapd} = ${data.out_ffs} กม./ชม.`),
                             new Paragraph({ text: "" }),
                             new Paragraph({ text: `ขั้นตอนที่ 3: การวิเคราะห์อัตราการไหลจราจร (Flow Rate)`, heading: HeadingLevel.HEADING_2 }),
-                            new Paragraph("v = (V×D×K)/(PHF×N)   เมื่อ V = Σ(AADTรถประเภท i × PCEรถประเภท i)"),
+                            new Paragraph("v = (V×D×K)/(PHF×N)    เมื่อ V = Σ(AADTรถประเภท i × PCEรถประเภท i)"),
                             new Paragraph(`ปริมาณจราจรรายวัน (V) = (${data.aadt_pc}*1.0) + (${data.aadt_mctc}*${data.in_pce_mctc}) + (${data.aadt_ltlb}*${data.in_pce_ltlb}) + (${data.aadt_mtht}*${data.in_pce_mtht}) + (${data.aadt_ftst}*${data.in_pce_ftst}) + (${data.aadt_mbhb}*${data.in_pce_mbhb})`),
                             new Paragraph(`ปริมาณจราจรรายวัน (V) = ${(data.in_dailyPcu).toLocaleString()} PCU/วัน`),
                             new Paragraph(`อัตราการไหล (v) ขาเข้า = (${(data.in_dailyPcu).toLocaleString()}x${data.in_directionalSplit}x${data.kFactor})/(${data.phf}x${data.in_numLanes}) = ${data.in_flowRate} PCU/ชม./ช่อง`),
