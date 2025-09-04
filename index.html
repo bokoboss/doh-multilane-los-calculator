@@ -158,6 +158,28 @@
 
     <div id="toast-container"></div>
 
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">กรุณาใส่ Gemini API Key</h2>
+            <p class="text-sm text-gray-600 mb-4">
+                เพื่อใช้งานฟีเจอร์วิเคราะห์ผลลัพธ์ โปรแกรมจำเป็นต้องใช้ API Key ส่วนตัวของคุณในการเชื่อมต่อกับ Gemini
+                คุณสามารถสร้าง Key ได้ฟรีจาก Google AI Studio
+            </p>
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 hover:underline text-sm mb-4 inline-block">
+                คลิกที่นี่เพื่อสร้าง API Key →
+            </a>
+            <div>
+                <label for="gemini-api-key-input" class="block text-sm font-medium text-gray-700">Gemini API Key</label>
+                <input type="password" id="gemini-api-key-input" class="minimal-input w-full mt-1" placeholder="วาง API Key ของคุณที่นี่">
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="cancel-api-key-button" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">ยกเลิก</button>
+                <button id="save-api-key-button" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">บันทึกและวิเคราะห์</button>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-screen-2xl mx-auto">
         <header class="text-center mb-10">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800">โปรแกรมประเมินระดับการให้บริการ (LOS)</h1>
@@ -454,6 +476,30 @@
                                  </div>
                              </div>
                          </section>
+
+                         <!-- Gemini AI Analysis Section -->
+                         <section>
+                            <div class="text-center mt-4 flex items-center justify-center gap-2">
+                                <button id="gemini-analyze-button" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                                    ✨ วิเคราะห์ผลลัพธ์ด้วย Gemini
+                                </button>
+                                <button id="edit-api-key-button" class="p-2 text-gray-500 hover:bg-gray-200 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311a1.464 1.464 0 0 1 0 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105 0l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 0-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105 0l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div id="gemini-analysis-container" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
+                                <div id="gemini-loader" class="text-center hidden">
+                                    <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <p class="text-sm text-gray-600 mt-2">กำลังวิเคราะห์ข้อมูลด้วย Gemini...</p>
+                                </div>
+                                <div id="gemini-result" class="prose prose-sm max-w-none"></div>
+                            </div>
+                         </section>
                      </div>
                  </div>
             </div>
@@ -695,7 +741,7 @@
             }
 
             // --- Event Listeners and Initializers ---
-            document.querySelectorAll('input').forEach(input => {
+            document.querySelectorAll('input, input[type="radio"]').forEach(input => {
                 input.addEventListener('input', masterAnalyze)
             });
             
@@ -838,6 +884,127 @@
             // Initial setup on load
             togglePceInputs();
 
+            // --- Gemini API ---
+            const isCanvasEnvironment = typeof __app_id !== 'undefined';
+            
+            const analyzeButton = document.getElementById('gemini-analyze-button');
+            const geminiContainer = document.getElementById('gemini-analysis-container');
+            const geminiLoader = document.getElementById('gemini-loader');
+            const geminiResultDiv = document.getElementById('gemini-result');
+            
+            const apiKeyModal = document.getElementById('api-key-modal');
+            const apiKeyInput = document.getElementById('gemini-api-key-input');
+            const saveApiKeyButton = document.getElementById('save-api-key-button');
+            const cancelApiKeyButton = document.getElementById('cancel-api-key-button');
+            const editApiKeyButton = document.getElementById('edit-api-key-button');
+
+            function showApiKeyModal() {
+                let currentKey = localStorage.getItem('geminiApiKey');
+                apiKeyInput.value = currentKey || '';
+                apiKeyModal.classList.remove('hidden');
+            }
+
+            function hideApiKeyModal() {
+                apiKeyModal.classList.add('hidden');
+            }
+
+            editApiKeyButton.addEventListener('click', showApiKeyModal);
+            cancelApiKeyButton.addEventListener('click', hideApiKeyModal);
+
+            saveApiKeyButton.addEventListener('click', () => {
+                const newKey = apiKeyInput.value.trim();
+                if (newKey) {
+                    localStorage.setItem('geminiApiKey', newKey);
+                    showToast('API Key บันทึกเรียบร้อยแล้ว', 'success');
+                    hideApiKeyModal();
+                    runGeminiAnalysis(newKey); // Proceed with analysis after saving
+                } else {
+                    showToast('กรุณาใส่ API Key', 'error');
+                }
+            });
+
+            analyzeButton.addEventListener('click', () => {
+                if (isCanvasEnvironment) {
+                    runGeminiAnalysis(""); // Use the environment-provided key
+                } else {
+                    let userApiKey = localStorage.getItem('geminiApiKey');
+                    if (userApiKey) {
+                        runGeminiAnalysis(userApiKey);
+                    } else {
+                        showApiKeyModal(); // Ask for a key if not in Canvas and no key is stored
+                    }
+                }
+            });
+
+            async function runGeminiAnalysis(apiKey) {
+                geminiContainer.classList.remove('hidden');
+                geminiLoader.classList.remove('hidden');
+                geminiResultDiv.innerHTML = '';
+                analyzeButton.disabled = true;
+
+                try {
+                    const data = gatherDataForExport();
+                    const prompt = `
+                        คุณคือผู้เชี่ยวชาญด้านวิศวกรรมจราจรที่มีประสบการณ์สูง 
+                        โปรดเขียนบทสรุปและวิเคราะห์ผลการประเมินระดับการให้บริการ (LOS) สำหรับโครงการต่อไปนี้ โดยใช้ภาษาที่เข้าใจง่ายสำหรับผู้บริหาร แต่ยังคงความถูกต้องทางเทคนิค พร้อมทั้งให้ข้อเสนอแนะทั่วไปหากระดับการให้บริการต่ำกว่า C
+
+                        **ข้อมูลโครงการ:**
+                        - **ชื่อโครงการ:** ${data.projectName}
+                        
+                        **ผลการวิเคราะห์ทิศทางขาเข้า:**
+                        - **ระดับการให้บริการ (LOS):** ${data.in_los}
+                        - **ความหนาแน่น (Density):** ${data.in_density.toFixed(2)} PCU/กม./ช่อง
+                        - **ความเร็วเดินทางเฉลี่ย (ATS):** ${data.in_ats.toFixed(2)} กม./ชม.
+
+                        **ผลการวิเคราะห์ทิศทางขาออก:**
+                        - **ระดับการให้บริการ (LOS):** ${data.out_los}
+                        - **ความหนาแน่น (Density):** ${data.out_density.toFixed(2)} PCU/กม./ช่อง
+                        - **ความเร็วเดินทางเฉลี่ย (ATS):** ${data.out_ats.toFixed(2)} กม./ชม.
+
+                        **รูปแบบการนำเสนอ:**
+                        โปรดจัดรูปแบบคำตอบโดยใช้ Markdown และใช้หัวข้อที่ชัดเจน แบ่งเป็น:
+                        1.  **บทสรุปสำหรับผู้บริหาร:** สรุปภาพรวมของผลลัพธ์อย่างกระชับ
+                        2.  **การวิเคราะห์สภาพการจราจร:** อธิบายความหมายของค่า LOS และความหนาแน่นที่เกิดขึ้นในแต่ละทิศทาง
+                        3.  **ข้อเสนอแนะเบื้องต้น:** (แสดงส่วนนี้ก็ต่อเมื่อมี LOS อย่างน้อยหนึ่งทิศทางที่ได้ระดับ C, D, E, หรือ F) ให้คำแนะนำทั่วไปที่สามารถทำได้เพื่อปรับปรุงสภาพการจราจร
+                    `;
+
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                         const errorBody = await response.json();
+                         console.error("API Error Response:", errorBody);
+                         throw new Error(`API request failed with status ${response.status}: ${errorBody.error.message}`);
+                    }
+
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัย ไม่สามารถสร้างบทวิเคราะห์ได้ในขณะนี้";
+                    
+                    let html = text
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\* (.*?)\n/g, '<li>$1</li>') 
+                        .replace(/<li>/g, '<li class="ml-4 list-disc">')
+                        .replace(/\n/g, '<br>');
+
+                    geminiResultDiv.innerHTML = html;
+
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    geminiResultDiv.innerHTML = `<p class="text-red-500">เกิดข้อผิดพลาด: ${error.message}<br>กรุณาตรวจสอบ API Key ของคุณ หรือลองใหม่อีกครั้ง</p>`;
+                } finally {
+                    geminiLoader.classList.add('hidden');
+                    analyzeButton.disabled = false;
+                }
+            }
+
+
             // --- Export Functions ---
             function gatherDataForExport() {
                 return {
@@ -846,13 +1013,13 @@
                     in_shoulderWidth: document.getElementById('in-shoulderWidth').value || "0.0",
                     medianType: document.querySelector('input[name="medianType"]:checked').value === '0' ? 'มีเกาะกลาง' : 'ไม่มีเกาะกลาง',
                     in_accessPointDensity: document.getElementById('in-accessPointDensity').value || "0.0",
-                    in_numLanes: document.getElementById('in-numLanes').value || "0",
+                    in_numLanes: parseInt(document.getElementById('in-numLanes').value) || 0,
                     in_gradePercent: document.getElementById('in-gradePercent').value || "0.0",
                     in_directionalSplit: document.getElementById('in-directionalSplit').value || "0.00",
                     out_laneWidth: document.getElementById('out-laneWidth').value || "0.0",
                     out_shoulderWidth: document.getElementById('out-shoulderWidth').value || "0.0",
                     out_accessPointDensity: document.getElementById('out-accessPointDensity').value || "0.0",
-                    out_numLanes: document.getElementById('out-numLanes').value || "0",
+                    out_numLanes: parseInt(document.getElementById('out-numLanes').value) || 0,
                     out_gradePercent: document.getElementById('out-gradePercent').value || "0.0",
                     out_directionalSplit: document.getElementById('out-directionalSplit-display').value || "0.00",
                     in_ffs: Number(document.getElementById('in-ffs-result').innerText) || 0,
