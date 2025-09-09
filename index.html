@@ -556,48 +556,93 @@
             function interpolate(x, x1, y1, x2, y2) { if (x1 === x2) return y1; return y1 + ((x - x1) * (y2 - y1)) / (x2 - x1); }
             function getPceValue(table, vehicleType, gradePercent) { const grades = table.grade; const pceValues = table[vehicleType]; if (gradePercent <= grades[0]) return pceValues[0]; if (gradePercent >= grades[grades.length - 1]) return pceValues[pceValues.length - 1]; for (let i = 0; i < grades.length - 1; i++) { if (gradePercent >= grades[i] && gradePercent <= grades[i+1]) { return interpolate(gradePercent, grades[i], pceValues[i], grades[i+1], pceValues[i+1]); } } const zeroIndex = grades.indexOf(0); return pceValues[zeroIndex >= 0 ? zeroIndex : Math.floor(grades.length/2)]; }
             
-            // --- New Helper Functions for ATS and LOS based on user's table ---
-            
-            function getCapacity(ffs) {
-                if (ffs <= 60) return 1600;
-                if (ffs >= 90) return 2000;
-                if (ffs < 70) return interpolate(ffs, 60, 1600, 70, 1750);
-                if (ffs < 80) return interpolate(ffs, 70, 1750, 80, 1900);
-                return interpolate(ffs, 80, 1900, 90, 2000);
+            // --- UPDATED Helper Functions for ATS and LOS based on new tables ---
+
+            // Data structure holding metrics from the provided tables
+            const losMetrics = {
+                '2_lanes': {
+                    // FFS: [max_density_D, max_density_E, ats_at_capacity, capacity]
+                    100: [19, 23, 90.0, 2100],
+                    90:  [22, 26, 75.0, 2000],
+                    80:  [22, 27, 68.0, 1900],
+                    70:  [22, 28, 62.0, 1750],
+                    60:  [22, 30, 54.0, 1600]
+                },
+                'gt_2_lanes': {
+                    // FFS: [max_density_D, max_density_E, ats_at_capacity, capacity]
+                    100: [19, 26, 82.0, 2100],
+                    90:  [22, 26, 75.0, 2000],
+                    80:  [22, 27, 68.0, 1900],
+                    70:  [22, 28, 62.0, 1750],
+                    60:  [22, 30, 54.0, 1600]
+                }
+            };
+
+            /**
+             * Gets the correct performance metrics for a given FFS and lane count, with interpolation.
+             * @param {number} numLanes - The number of lanes in one direction.
+             * @param {number} ffs - The Free-Flow Speed.
+             * @returns {Array<number>} An array containing [max_density_D, max_density_E, ats_at_capacity, capacity].
+             */
+            function getMetricsForFfs(numLanes, ffs) {
+                const laneGroup = numLanes === 2 ? '2_lanes' : 'gt_2_lanes';
+                const table = losMetrics[laneGroup];
+                const ffsPoints = Object.keys(table).map(Number).sort((a, b) => b - a); // [100, 90, 80, 70, 60]
+
+                if (ffs >= ffsPoints[0]) return table[ffsPoints[0]];
+                if (ffs <= ffsPoints[ffsPoints.length - 1]) return table[ffsPoints[ffsPoints.length - 1]];
+
+                for (let i = 0; i < ffsPoints.length - 1; i++) {
+                    const upperFfs = ffsPoints[i];
+                    const lowerFfs = ffsPoints[i + 1];
+                    if (ffs <= upperFfs && ffs > lowerFfs) {
+                        const upperMetrics = table[upperFfs];
+                        const lowerMetrics = table[lowerFfs];
+                        // Interpolate each metric
+                        return [
+                            interpolate(ffs, lowerFfs, lowerMetrics[0], upperFfs, upperMetrics[0]), // max_density_D
+                            interpolate(ffs, lowerFfs, lowerMetrics[1], upperFfs, upperMetrics[1]), // max_density_E
+                            interpolate(ffs, lowerFfs, lowerMetrics[2], upperFfs, upperMetrics[2]), // ats_at_capacity
+                            interpolate(ffs, lowerFfs, lowerMetrics[3], upperFfs, upperMetrics[3]), // capacity
+                        ];
+                    }
+                }
+                return table[90]; // Fallback, should not be reached
             }
 
-            function getAtsAtCapacity(ffs) {
-                if (ffs <= 60) return 54.0;
-                if (ffs >= 90) return 75.0;
-                if (ffs < 70) return interpolate(ffs, 60, 54.0, 70, 62.0);
-                if (ffs < 80) return interpolate(ffs, 70, 62.0, 80, 68.0);
-                return interpolate(ffs, 80, 68.0, 90, 75.0);
-            }
-            
-            function calculateATS(ffs, flowRate) {
-                const capacity = getCapacity(ffs);
-                const atsAtCapacity = getAtsAtCapacity(ffs);
+            /**
+             * Calculates the Average Travel Speed (ATS) based on FFS, flow rate, and number of lanes.
+             * @param {number} ffs - Free-Flow Speed.
+             * @param {number} flowRate - Service flow rate (v).
+             * @param {number} numLanes - Number of lanes in one direction.
+             * @returns {number} The calculated ATS.
+             */
+            function calculateATS(ffs, flowRate, numLanes) {
+                const metrics = getMetricsForFfs(numLanes, ffs);
+                const atsAtCapacity = metrics[2];
+                const capacity = metrics[3];
 
                 if (flowRate >= capacity) return atsAtCapacity;
                 // Linear interpolation between (0, FFS) and (capacity, ATS at capacity)
                 return interpolate(flowRate, 0, ffs, capacity, atsAtCapacity);
             }
 
-            function getMaxDensityForLosE(ffs) {
-                 if (ffs <= 60) return 30;
-                 if (ffs >= 90) return 26;
-                 if (ffs < 70) return interpolate(ffs, 60, 30, 70, 28);
-                 if (ffs < 80) return interpolate(ffs, 70, 28, 80, 27);
-                 return interpolate(ffs, 80, 27, 90, 26);
-            }
+            /**
+             * Determines the Level of Service (LOS) based on traffic density, FFS, and number of lanes.
+             * @param {number} density - Traffic density.
+             * @param {number} ffs - Free-Flow Speed.
+             * @param {number} numLanes - Number of lanes in one direction.
+             * @returns {object} An object with LOS level and CSS class.
+             */
+            function getLOS(density, ffs, numLanes) {
+                const metrics = getMetricsForFfs(numLanes, ffs);
+                const maxDensityD = metrics[0];
+                const maxDensityE = metrics[1];
 
-            function getLOS(density, ffs) {
                 if (density <= 7) return { level: 'A', class: 'los-a' };
                 if (density <= 11) return { level: 'B', class: 'los-b' };
                 if (density <= 16) return { level: 'C', class: 'los-c' };
-                if (density <= 22) return { level: 'D', class: 'los-d' };
-                
-                const maxDensityE = getMaxDensityForLosE(ffs);
+                if (density <= maxDensityD) return { level: 'D', class: 'los-d' };
                 if (density <= maxDensityE) return { level: 'E', class: 'los-e' };
                 
                 return { level: 'F', class: 'los-f' };
@@ -666,17 +711,18 @@
                 document.getElementById(prefix + '-flow-rate-result').innerText = serviceFlowRate.toFixed(0);
 
                 // Step 4: Capacity
-                const capacity = getCapacity(ffs);
+                const metrics = getMetricsForFfs(numLanes, ffs);
+                const capacity = metrics[3];
                 document.getElementById(prefix + '-directional-capacity-result').innerText = Math.round(capacity * numLanes).toLocaleString();
 
                 // Step 5: ATS
-                const ats = calculateATS(ffs, serviceFlowRate);
+                const ats = calculateATS(ffs, serviceFlowRate, numLanes);
                 document.getElementById(prefix + '-ats-result').innerText = ats.toFixed(1);
                 
                 // Step 6: Density and LOS
                 const density = ats > 0 ? serviceFlowRate / ats : 0;
                 document.getElementById(prefix + '-density-result').innerText = density.toFixed(1);
-                const los = getLOS(density, ffs);
+                const los = getLOS(density, ffs, numLanes);
                 const losEl = document.getElementById(prefix + '-los-result');
                 losEl.innerText = los.level;
                 losEl.className = 'los-badge ' + los.class;
@@ -1250,4 +1296,3 @@
     </script>
 </body>
 </html>
-
