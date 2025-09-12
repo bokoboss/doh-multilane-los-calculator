@@ -11,65 +11,73 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #3b82f6; /* blue-500 */
+            --primary-color-dark: #2563eb; /* blue-600 */
+            --light-gray: #f7f8fc;
+            --text-primary: #1f2937; /* gray-800 */
+            --text-secondary: #6b7280; /* gray-500 */
+        }
+
         body {
             font-family: 'Sarabun', sans-serif;
-            background-color: #f8f9fa;
+            background-color: var(--light-gray);
+            color: var(--text-primary);
         }
         .card {
             background-color: #ffffff;
-            border-radius: 0.75rem;
+            border-radius: 1rem; /* lg */
             padding: 2rem;
-            box-shadow: 0 4px_12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb; /* gray-200 */
+            height: 100%;
         }
         .result-value {
             font-size: 1.25rem;
             font-weight: 600;
+            color: var(--primary-color);
         }
         .result-label {
-            font-size: 0.875rem;
-            color: #6c757d;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
         
-        /* Minimal Input Style */
         .minimal-input {
             border: none;
-            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            border-bottom: 2px solid #e5e7eb; /* gray-200 */
             border-radius: 0;
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            padding-left: 0.25rem;
-            padding-right: 0.25rem;
+            padding: 0.5rem 0.25rem;
             background-color: transparent;
             transition: border-color 0.2s ease-in-out;
+            width: 100%;
         }
         .minimal-input:focus {
             outline: none;
             box-shadow: none;
-            --tw-ring-shadow: 0 0 #000 !important; /* Tailwind reset */
-            border-bottom: 2px solid #4f46e5; /* indigo-600 */
+            --tw-ring-shadow: 0 0 #000 !important;
+            border-bottom-color: var(--primary-color);
         }
         input[type="number"] { -moz-appearance: textfield; }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        input[readonly] { background-color: #f8f9fa; cursor: not-allowed; }
+        input[readonly] { background-color: #f3f4f6; cursor: not-allowed; }
 
         .los-badge {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.75rem;
             color: white;
             display: inline-block;
             line-height: 1.2;
         }
-        .los-a { background-color: #198754; }
-        .los-b { background-color: #20c997; }
-        .los-c { background-color: #fdc300; }
-        .los-d { background-color: #fd7e14; }
-        .los-e { background-color: #dc3545; }
-        .los-f { background-color: #842029; }
+        .los-a { background-color: #16a34a; } /* green-600 */
+        .los-b { background-color: #4ade80; } /* green-400 */
+        .los-c { background-color: #facc15; } /* yellow-400 */
+        .los-d { background-color: #fb923c; } /* orange-400 */
+        .los-e { background-color: #f87171; } /* red-400 */
+        .los-f { background-color: #dc2626; } /* red-600 */
         
-        /* Toast Notification Styles */
         #toast-container {
             position: fixed;
             top: 1.5rem;
@@ -89,15 +97,11 @@
             transform: translateX(100%);
             transition: all 0.4s ease-in-out;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .toast.success { background-color: #198754; }
-        .toast.error { background-color: #dc3545; }
-        .toast.info { background-color: #0d6efd; }
+        .toast.show { opacity: 1; transform: translateX(0); }
+        .toast.success { background-color: #16a34a; }
+        .toast.error { background-color: #dc2626; }
+        .toast.info { background-color: #3b82f6; }
 
-        /* Tooltip Styles */
         .tooltip-container {
             position: relative;
             display: inline-flex;
@@ -105,9 +109,9 @@
         }
         .tooltip-icon {
             margin-left: 0.5rem;
-            width: 1rem;
-            height: 1rem;
-            background-color: #6c757d;
+            width: 1.1rem;
+            height: 1.1rem;
+            background-color: #9ca3af; /* gray-400 */
             color: white;
             border-radius: 50%;
             display: inline-flex;
@@ -116,270 +120,207 @@
             font-size: 0.75rem;
             font-weight: bold;
             cursor: help;
+            transition: background-color 0.2s;
         }
+        .tooltip-container:hover .tooltip-icon { background-color: var(--text-primary); }
         .tooltip-text {
             visibility: hidden;
-            width: 300px; /* Increased width */
-            background-color: #343a40;
+            width: 320px;
+            background-color: #374151; /* gray-700 */
             color: #fff;
             text-align: left;
-            border-radius: 0.375rem;
-            padding: 0.75rem;
+            border-radius: 0.5rem;
+            padding: 1rem;
             position: absolute;
-            z-index: 1;
-            bottom: 125%;
+            z-index: 10;
+            bottom: 140%;
             left: 50%;
-            margin-left: -150px; /* Adjusted for new width */
+            transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 0.875rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .tooltip-text strong {
-            color: #fdc300;
-        }
+        .tooltip-text strong { color: #60a5fa; } /* blue-400 */
         .tooltip-text::after {
             content: "";
             position: absolute;
             top: 100%;
             left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
+            margin-left: -6px;
+            border-width: 6px;
             border-style: solid;
-            border-color: #343a40 transparent transparent transparent;
+            border-color: #374151 transparent transparent transparent;
         }
-        .tooltip-container:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 sm:p-6 md:p-8">
 
     <div id="toast-container"></div>
 
     <!-- API Key Modal -->
-    <div id="api-key-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">กรุณาใส่ Gemini API Key</h2>
-            <p class="text-sm text-gray-600 mb-4">
+    <div id="api-key-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md space-y-4">
+            <h2 class="text-xl font-bold text-gray-800">กรุณาใส่ Gemini API Key</h2>
+            <p class="text-sm text-gray-600">
                 เพื่อใช้งานฟีเจอร์วิเคราะห์ผลลัพธ์ โปรแกรมจำเป็นต้องใช้ API Key ส่วนตัวของคุณในการเชื่อมต่อกับ Gemini
-                คุณสามารถสร้าง Key ได้ฟรีจาก Google AI Studio
+                คุณสามารถสร้าง Key ได้ฟรีจาก <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 hover:underline font-medium">Google AI Studio</a>
             </p>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 hover:underline text-sm mb-4 inline-block">
-                คลิกที่นี่เพื่อสร้าง API Key →
-            </a>
             <div>
-                <label for="gemini-api-key-input" class="block text-sm font-medium text-gray-700">Gemini API Key</label>
-                <input type="password" id="gemini-api-key-input" class="minimal-input w-full mt-1" placeholder="วาง API Key ของคุณที่นี่">
+                <label for="gemini-api-key-input" class="block text-sm font-medium text-gray-700 mb-1">Gemini API Key</label>
+                <input type="password" id="gemini-api-key-input" class="minimal-input" placeholder="วาง API Key ของคุณที่นี่">
             </div>
-            <div class="mt-6 flex justify-end space-x-3">
-                <button id="cancel-api-key-button" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">ยกเลิก</button>
-                <button id="save-api-key-button" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">บันทึกและวิเคราะห์</button>
+            <div class="mt-2 flex justify-end space-x-3">
+                <button id="cancel-api-key-button" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">ยกเลิก</button>
+                <button id="save-api-key-button" class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">บันทึกและวิเคราะห์</button>
             </div>
         </div>
     </div>
 
-    <div class="max-w-screen-2xl mx-auto">
+    <div class="max-w-screen-xl mx-auto">
         <header class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">โปรแกรมประเมินระดับการให้บริการ (LOS)</h1>
-            <p class="text-gray-600 mt-2 text-lg">สำหรับทางหลวงหลายช่องจราจร</p>
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Multilane Highway LOS Calculator</h1>
+                <p class="text-gray-500 mt-1 text-md">โปรแกรมประเมินระดับการให้บริการสำหรับทางหลวงหลายช่องจราจร</p>
+            </div>
         </header>
 
         <!-- ========== Menu Bar ========== -->
-        <div class="flex flex-wrap justify-center items-center gap-2 md:gap-3 mb-8">
+        <div class="flex flex-wrap justify-center items-center gap-2 mb-8 bg-white p-3 rounded-xl shadow-sm border border-gray-200">
             <input type="file" id="import-file-input" class="hidden" accept=".json">
-            <button id="menu-open-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+            <button id="menu-open-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v1"></path></svg>
                 เปิด
             </button>
-            <button id="menu-save-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <button id="menu-save-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all" disabled>
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 บันทึก
             </button>
-            <button id="menu-load-sample-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
+            <button id="menu-load-sample-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><polyline points="12 18 12 12 8 16 12 12 16 16"></polyline></svg>
-                โหลดข้อมูลตัวอย่าง
+                โหลดตัวอย่าง
             </button>
-            <button id="menu-export-report-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
+            <div class="h-5 w-px bg-gray-200 mx-2"></div>
+            <button id="menu-export-report-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
-                ส่งออกรายงาน
+                รายงาน Word
             </button>
-            <button id="menu-export-excel-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
+            <button id="menu-export-excel-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M8 13h1l1 1 1-1h1"></path><path d="M15 13h1l1 1 1-1h1"></path><path d="M8 18h1l1 1 1-1h1"></path><path d="M15 18h1l1 1 1-1h1"></path></svg>
-                ส่งออก Excel
+                รายงาน Excel
             </button>
-            <button id="menu-clear-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100">
+            <div class="h-5 w-px bg-gray-200 mx-2"></div>
+            <button id="menu-clear-button" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-500 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                 ล้างข้อมูล
             </button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-8">
             <!-- ========== Input Column ========== -->
             <div class="lg:col-span-1">
-                <div class="card space-y-12">
+                <div class="card space-y-8">
                     
-                    <!-- Group 1: Project Overview -->
                     <section>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b border-gray-200 pb-3">ข้อมูลภาพรวมโครงการ</h3>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">ข้อมูลโครงการ</h3>
                         <div class="space-y-6">
-                                <div>
-                                    <label for="projectName" class="block text-sm font-medium text-gray-700">ชื่อโครงการ/ตำแหน่ง</label>
-                                    <input type="text" id="projectName" placeholder="เช่น ทางหลวงหมายเลข 4 ช่วง กม. 10+000 - 15+000" class="minimal-input w-full">
-                                </div>
-                            <!-- Shared Data -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                                    <div>
-                                        <label for="phf" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            PHF
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ตัวประกอบชั่วโมงเร่งด่วน (PHF):</strong> อัตราส่วนของปริมาณจราจรในชั่วโมงเร่งด่วนต่ออัตราการไหลสูงสุดใน 15 นาที (0.25-1.0)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.95<br>- พื้นที่นอกเมือง: 0.90</span>
-                                        </label>
-                                        <input type="number" id="phf" placeholder="0.00" step="0.01" min="0" max="1.0" class="minimal-input w-full">
-                                    </div>
-                                <div>
-                                    <label for="kFactor" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                        K-Factor
-                                        <span class="tooltip-icon">?</span>
-                                        <span class="tooltip-text"><strong>K-Factor:</strong> สัดส่วนปริมาณจราจรในชั่วโมงเร่งด่วนต่อ AADT (มักจะอยู่ระหว่าง 0.07-0.15)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.06 – 0.12<br>- พื้นที่นอกเมือง: 0.08 – 0.16</span>
-                                    </label>
-                                    <input type="number" id="kFactor" placeholder="0.00" step="0.01" min="0" max="1.0" class="minimal-input w-full">
-                                </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">เกาะกลาง</label>
-                                        <div class="mt-2 flex space-x-6">
-                                            <label class="flex items-center"><input type="radio" name="medianType" value="0" checked class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">มี</span></label>
-                                            <label class="flex items-center"><input type="radio" name="medianType" value="4.3" class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"> <span class="ml-2 text-sm">ไม่มี</span></label>
-                                        </div>
-                                    </div>
-                            </div>
-                            <!-- AADT Data -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">AADT (คัน/วัน)</label>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-                                    <div><label for="aadt_pc" class="text-xs text-gray-500">รถยนต์ (PC)</label><input type="text" inputmode="numeric" id="aadt_pc" placeholder="0" min="0" class="minimal-input w-full"></div>
-                                    <div><label for="aadt_mctc" class="text-xs text-gray-500">รถจักรยานยนต์ (MC/TC)</label><input type="text" inputmode="numeric" id="aadt_mctc" placeholder="0" min="0" class="minimal-input w-full"></div>
-                                    <div><label for="aadt_mbhb" class="text-xs text-gray-500">รถโดยสาร (MB/HB)</label><input type="text" inputmode="numeric" id="aadt_mbhb" placeholder="0" min="0" class="minimal-input w-full"></div>
-                                    <div><label for="aadt_ltlb" class="text-xs text-gray-500">รถบรรทุกเล็ก (LT/LB)</label><input type="text" inputmode="numeric" id="aadt_ltlb" placeholder="0" min="0" class="minimal-input w-full"></div>
-                                    <div><label for="aadt_mtht" class="text-xs text-gray-500">รถบรรทุก 6-10 ล้อ (MT/HT)</label><input type="text" inputmode="numeric" id="aadt_mtht" placeholder="0" min="0" class="minimal-input w-full"></div>
-                                    <div><label for="aadt_ftst" class="text-xs text-gray-500">รถบรรทุกขนาดใหญ่ (FT/ST)</label><input type="text" inputmode="numeric" id="aadt_ftst" placeholder="0" min="0" class="minimal-input w-full"></div>
+                                <label for="projectName" class="block text-sm font-medium text-gray-600 mb-1">ชื่อโครงการ/ตำแหน่ง</label>
+                                <input type="text" id="projectName" placeholder="เช่น ทางหลวงหมายเลข 4 ช่วง กม. 10+000 - 15+000" class="minimal-input">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div>
+                                    <label for="phf" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">PHF<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ตัวประกอบชั่วโมงเร่งด่วน (PHF):</strong> อัตราส่วนของปริมาณจราจรในชั่วโมงเร่งด่วนต่ออัตราการไหลสูงสุดใน 15 นาที (0.25-1.0)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.95<br>- พื้นที่นอกเมือง: 0.90</span></label>
+                                    <input type="number" id="phf" placeholder="0.92" step="0.01" min="0" max="1.0" class="minimal-input">
                                 </div>
-                                <div class="mt-4 text-right">
+                                <div>
+                                    <label for="kFactor" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">K-Factor<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>K-Factor:</strong> สัดส่วนปริมาณจราจรในชั่วโมงเร่งด่วนต่อ AADT (มักจะอยู่ระหว่าง 0.07-0.15)<br><br><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.06 – 0.12<br>- พื้นที่นอกเมือง: 0.08 – 0.16</span></label>
+                                    <input type="number" id="kFactor" placeholder="0.10" step="0.01" min="0" max="1.0" class="minimal-input">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-600">เกาะกลาง</label>
+                                    <div class="mt-2 flex space-x-6">
+                                        <label class="flex items-center"><input type="radio" name="medianType" value="0" checked class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"> <span class="ml-2 text-sm">มี</span></label>
+                                        <label class="flex items-center"><input type="radio" name="medianType" value="4.3" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"> <span class="ml-2 text-sm">ไม่มี</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">ปริมาณจราจรเฉลี่ยรายวัน (AADT)</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                                    <div><label for="aadt_pc" class="text-xs text-gray-500">รถยนต์ (PC)</label><input type="text" inputmode="numeric" id="aadt_pc" placeholder="0" min="0" class="minimal-input"></div>
+                                    <div><label for="aadt_mctc" class="text-xs text-gray-500">รถจักรยานยนต์ (MC/TC)</label><input type="text" inputmode="numeric" id="aadt_mctc" placeholder="0" min="0" class="minimal-input"></div>
+                                    <div><label for="aadt_mbhb" class="text-xs text-gray-500">รถโดยสาร (MB/HB)</label><input type="text" inputmode="numeric" id="aadt_mbhb" placeholder="0" min="0" class="minimal-input"></div>
+                                    <div><label for="aadt_ltlb" class="text-xs text-gray-500">รถบรรทุกเล็ก (LT/LB)</label><input type="text" inputmode="numeric" id="aadt_ltlb" placeholder="0" min="0" class="minimal-input"></div>
+                                    <div><label for="aadt_mtht" class="text-xs text-gray-500">รถบรรทุก 6-10 ล้อ (MT/HT)</label><input type="text" inputmode="numeric" id="aadt_mtht" placeholder="0" min="0" class="minimal-input"></div>
+                                    <div><label for="aadt_ftst" class="text-xs text-gray-500">รถบรรทุกขนาดใหญ่ (FT/ST)</label><input type="text" inputmode="numeric" id="aadt_ftst" placeholder="0" min="0" class="minimal-input"></div>
+                                </div>
+                                <div class="mt-4 text-right p-2 bg-gray-50 rounded-lg">
                                     <span class="font-medium text-gray-700">ผลรวม AADT:</span>
-                                    <span id="total-aadt" class="font-bold text-lg text-indigo-600">0</span>
+                                    <span id="total-aadt" class="font-bold text-lg text-blue-600 ml-2">0</span>
                                     <span class="text-sm text-gray-500"> คัน/วัน</span>
                                 </div>
                             </div>
                         </div>
                     </section>
                     
-                    <!-- Group 2: Directional Physical Data -->
+                    <hr class="border-gray-100">
+
                     <section>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b border-gray-200 pb-3">ข้อมูลกายภาพรายทิศทาง</h3>
-                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                            <!-- Inbound Column -->
-                            <div>
-                                <h4 class="text-md font-semibold text-blue-600 mb-4">ทิศทางขาเข้า</h4>
-                                <div class="space-y-4">
-                                        <div>
-                                            <label for="in-laneWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                                ความกว้างช่องจราจร (เมตร)
-                                                <span class="tooltip-icon">?</span>
-                                                <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span>
-                                             </label>
-                                            <input type="number" id="in-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                        </div>
-                                        <div>
-                                            <label for="in-shoulderWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                                ความกว้างไหล่ทางรวม (เมตร)
-                                                <span class="tooltip-icon">?</span>
-                                                <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span>
-                                            </label>
-                                            <input type="number" id="in-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                        </div>
-                                        <div><label for="in-numLanes" class="block text-sm font-medium text-gray-700">จำนวนช่องจราจร (N)</label><input type="number" id="in-numLanes" placeholder="2" min="1" class="minimal-input w-full"></div>
-                                        <div><label for="in-gradePercent" class="block text-sm font-medium text-gray-700">ความลาดชัน (%)</label><input type="number" id="in-gradePercent" placeholder="0.0" step="0.1" class="minimal-input w-full"></div>
-                                        <div>
-                                            <label for="in-accessPointDensity" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                                ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)
-                                                <span class="tooltip-icon">?</span>
-                                                <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span>
-                                            </label>
-                                            <input type="number" id="in-accessPointDensity" placeholder="0.0" step="0.1" min="0" class="minimal-input w-full">
-                                        </div>
-                                        <div>
-                                            <label for="in-directionalSplit" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                                สัดส่วนจราจร (D)
-                                                <span class="tooltip-icon">?</span>
-                                                <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.52 – 0.62<br>- พื้นที่นอกเมือง: 0.50 – 0.70</span>
-                                            </label>
-                                            <input type="number" id="in-directionalSplit" placeholder="0.50" step="0.01" min="0" max="1.0" class="minimal-input w-full">
-                                        </div>
-                                </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">ข้อมูลกายภาพรายทิศทาง</h3>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-semibold text-blue-600">ทิศทางขาเข้า</h4>
+                                <div><label for="in-numLanes" class="block text-sm font-medium text-gray-600 mb-1">จำนวนช่องจราจร (N)</label><input type="number" id="in-numLanes" placeholder="2" min="1" class="minimal-input"></div>
+                                <div><label for="in-laneWidth" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความกว้างช่องจราจร (ม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span></label><input type="number" id="in-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="in-shoulderWidth" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความกว้างไหล่ทางรวม (ม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span></label><input type="number" id="in-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="in-gradePercent" class="block text-sm font-medium text-gray-600 mb-1">ความลาดชัน (%)</label><input type="number" id="in-gradePercent" placeholder="0.0" step="0.1" class="minimal-input"></div>
+                                <div><label for="in-accessPointDensity" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span></label><input type="number" id="in-accessPointDensity" placeholder="1.0" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="in-directionalSplit" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">สัดส่วนจราจร (D)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 0.52 – 0.62<br>- พื้นที่นอกเมือง: 0.50 – 0.70</span></label><input type="number" id="in-directionalSplit" placeholder="0.50" step="0.01" min="0" max="1.0" class="minimal-input"></div>
                             </div>
-                            <!-- Outbound Column -->
-                            <div>
-                                <h4 class="text-md font-semibold text-green-600 mb-4">ทิศทางขาออก</h4>
-                                <div class="space-y-4">
-                                    <div>
-                                        <label for="out-laneWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความกว้างช่องจราจร (เมตร)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span>
-                                        </label>
-                                        <input type="number" id="out-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                    <div>
-                                        <label for="out-shoulderWidth" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความกว้างไหล่ทางรวม (เมตร)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span>
-                                        </label>
-                                        <input type="number" id="out-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                    <div><label for="out-numLanes" class="block text-sm font-medium text-gray-700">จำนวนช่องจราจร (N)</label><input type="number" id="out-numLanes" placeholder="2" min="1" class="minimal-input w-full"></div>
-                                    <div><label for="out-gradePercent" class="block text-sm font-medium text-gray-700">ความลาดชัน (%)</label><input type="number" id="out-gradePercent" placeholder="0.0" step="0.1" class="minimal-input w-full"></div>
-                                    <div>
-                                        <label for="out-accessPointDensity" class="block text-sm font-medium text-gray-700 tooltip-container">
-                                            ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)
-                                            <span class="tooltip-icon">?</span>
-                                            <span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span>
-                                        </label>
-                                        <input type="number" id="out-accessPointDensity" placeholder="0.0" step="0.1" min="0" class="minimal-input w-full">
-                                    </div>
-                                    <div><label for="out-directionalSplit-display" class="block text-sm font-medium text-gray-700">สัดส่วนจราจร (D)</label><input type="number" id="out-directionalSplit-display" value="0.50" class="minimal-input w-full bg-gray-100" readonly></div>
-                                </div>
+                            <div class="space-y-4">
+                                <h4 class="text-lg font-semibold text-green-600">ทิศทางขาออก</h4>
+                                <div><label for="out-numLanes" class="block text-sm font-medium text-gray-600 mb-1">จำนวนช่องจราจร (N)</label><input type="number" id="out-numLanes" placeholder="2" min="1" class="minimal-input"></div>
+                                <div><label for="out-laneWidth" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความกว้างช่องจราจร (ม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร</span></label><input type="number" id="out-laneWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="out-shoulderWidth" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความกว้างไหล่ทางรวม (ม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าปกติ:</strong> 3.5 เมตร (เช่น ไหล่ซ้าย 2.5 เมตร + ไหล่ขวา 1.0 เมตร)</span></label><input type="number" id="out-shoulderWidth" placeholder="3.5" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="out-gradePercent" class="block text-sm font-medium text-gray-600 mb-1">ความลาดชัน (%)</label><input type="number" id="out-gradePercent" placeholder="0.0" step="0.1" class="minimal-input"></div>
+                                <div><label for="out-accessPointDensity" class="block text-sm font-medium text-gray-600 mb-1 tooltip-container">ความหนาแน่นจุดเชื่อมต่อ (จุด/กม.)<span class="tooltip-icon">?</span><span class="tooltip-text"><strong>ค่าแนะนำ:</strong><br>- พื้นที่ชานเมือง: 5 จุด/กม.<br>- พื้นที่นอกเมือง: 1 จุด/กม.</span></label><input type="number" id="out-accessPointDensity" placeholder="1.0" step="0.1" min="0" class="minimal-input"></div>
+                                <div><label for="out-directionalSplit-display" class="block text-sm font-medium text-gray-600 mb-1">สัดส่วนจราจร (D)</label><input type="number" id="out-directionalSplit-display" value="0.50" class="minimal-input bg-gray-100" readonly></div>
                             </div>
                         </div>
                     </section>
+                    
+                    <hr class="border-gray-100">
 
-                    <!-- Group 3: Advanced Settings -->
                     <section>
-                         <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b border-gray-200 pb-3">ตั้งค่าขั้นสูง</h3>
-                         <div class="flex items-center mb-4">
-                             <input type="checkbox" id="manualPceToggle" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                             <label for="manualPceToggle" class="ml-3 block text-sm text-gray-900">กำหนดค่า PCE เอง</label>
+                         <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-800">ตั้งค่าขั้นสูง</h3>
+                             <label for="manualPceToggle" class="flex items-center cursor-pointer">
+                                 <input type="checkbox" id="manualPceToggle" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                 <span class="ml-2 text-sm text-gray-700">กำหนดค่า PCE เอง</span>
+                             </label>
                          </div>
-                         <div id="manualPceSection" class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                         <div id="manualPceSection" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                                <div>
                                    <h4 class="text-md font-semibold text-blue-600 mb-2">PCE ขาเข้า</h4>
                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="in-pce-group">
-                                       <label class="text-sm self-end">MC/TC:</label><input type="number" name="in-pce" id="in-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">MB/HB:</label><input type="number" name="in-pce" id="in-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">LT/LB:</label><input type="number" name="in-pce" id="in-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">MT/HT:</label><input type="number" name="in-pce" id="in-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">FT/ST:</label><input type="number" name="in-pce" id="in-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-center">MC/TC:</label><input type="number" name="in-pce" id="in-pce-mctc" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">MB/HB:</label><input type="number" name="in-pce" id="in-pce-mbhb" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">LT/LB:</label><input type="number" name="in-pce" id="in-pce-ltlb" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">MT/HT:</label><input type="number" name="in-pce" id="in-pce-mtht" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">FT/ST:</label><input type="number" name="in-pce" id="in-pce-ftst" step="0.01" min="0" class="minimal-input text-sm">
                                    </div>
                                </div>
                                <div>
                                    <h4 class="text-md font-semibold text-green-600 mb-2">PCE ขาออก</h4>
                                    <div class="grid grid-cols-2 gap-x-4 gap-y-2 pce-input-group" id="out-pce-group">
-                                       <label class="text-sm self-end">MC/TC:</label><input type="number" name="out-pce" id="out-pce-mctc" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">MB/HB:</label><input type="number" name="out-pce" id="out-pce-mbhb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">LT/LB:</label><input type="number" name="out-pce" id="out-pce-ltlb" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">MT/HT:</label><input type="number" name="out-pce" id="out-pce-mtht" step="0.01" min="0" class="minimal-input w-full text-sm">
-                                       <label class="text-sm self-end">FT/ST:</label><input type="number" name="out-pce" id="out-pce-ftst" step="0.01" min="0" class="minimal-input w-full text-sm">
+                                       <label class="text-sm self-center">MC/TC:</label><input type="number" name="out-pce" id="out-pce-mctc" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">MB/HB:</label><input type="number" name="out-pce" id="out-pce-mbhb" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">LT/LB:</label><input type="number" name="out-pce" id="out-pce-ltlb" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">MT/HT:</label><input type="number" name="out-pce" id="out-pce-mtht" step="0.01" min="0" class="minimal-input text-sm">
+                                       <label class="text-sm self-center">FT/ST:</label><input type="number" name="out-pce" id="out-pce-ftst" step="0.01" min="0" class="minimal-input text-sm">
                                    </div>
                                </div>
                          </div>
@@ -389,131 +330,106 @@
 
             <!-- ========== Result Column ========== -->
             <div class="lg:col-span-1">
-                 <div class="card">
-                         <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-6">
-                             <h2 class="text-xl font-bold text-gray-800">ผลการวิเคราะห์</h2>
+                 <div class="card space-y-6">
+                     <h2 class="text-2xl font-bold text-gray-800 border-b pb-3">ผลการวิเคราะห์</h2>
+                     
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center border-b pb-6">
+                        <div>
+                           <p class="text-sm text-gray-500 mb-2">LOS ขาเข้า</p>
+                           <span id="in-los-result" class="los-badge">?</span>
+                        </div>
+                        <div>
+                           <p class="text-sm text-gray-500 mb-2">LOS ขาออก</p>
+                           <span id="out-los-result" class="los-badge">?</span>
+                        </div>
+                     </div>
+                     
+                     <div class="space-y-4">
+                         <div class="grid grid-cols-3 gap-4 items-center">
+                             <span class="result-label"></span>
+                             <span class="result-label text-center font-semibold text-blue-600">ขาเข้า</span>
+                             <span class="result-label text-center font-semibold text-green-600">ขาออก</span>
                          </div>
-                         
-                         <div class="space-y-6">
-                             <!-- FFS Section -->
-                             <section>
-                                 <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวัดค่าความเร็วการไหลอิสระ (FFS)</h3>
-                                 <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label"></span>
-                                         <span class="result-label text-center font-semibold text-blue-600">ขาเข้า</span>
-                                         <span class="result-label text-center font-semibold text-green-600">ขาออก</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">BFFS</span>
-                                         <span id="in-bbfs-val" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-bbfs-val" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ค่าปรับแก้ f_LW</span>
-                                         <span id="in-flw-val" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-flw-val" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ค่าปรับแก้ f_LC</span>
-                                         <span id="in-flc-val" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-flc-val" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ค่าปรับแก้ f_M</span>
-                                         <span id="in-fm-val" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-fm-val" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ค่าปรับแก้ f_APD</span>
-                                         <span id="in-fapd-val" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-fapd-val" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                         <span class="result-label">FFS สุทธิ (กม./ชม.)</span>
-                                         <span id="in-ffs-result" class="result-value text-center text-blue-600">-</span>
-                                         <span id="out-ffs-result" class="result-value text-center text-green-600">-</span>
-                                     </div>
-                                 </div>
-                             </section>
-
-                             <!-- Flow Rate Section -->
-                             <section>
-                                  <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การวิเคราะห์อัตราการไหลจราจร</h3>
-                                  <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ปริมาณจราจร V (PCU/วัน)</span>
-                                         <span id="in-daily-pcu" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-daily-pcu" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                         <span class="result-label">อัตราการไหล v (PCU/ชม./ช่อง)</span>
-                                         <span id="in-flow-rate-result" class="result-value text-center text-blue-600">-</span>
-                                         <span id="out-flow-rate-result" class="result-value text-center text-green-600">-</span>
-                                     </div>
-                                 </div>
-                             </section>
-
-                             <!-- LOS and Capacity Assessment Section -->
-                             <section>
-                                 <h3 class="text-md font-semibold text-gray-700 bg-gray-100 p-2 rounded-t-lg">การประเมินระดับการให้บริการและความจุ</h3>
-                                 <div class="border border-t-0 p-3 rounded-b-lg space-y-2">
-                                       <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ความจุต่อทิศทาง (PCU/ชม.)</span>
-                                         <span id="in-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-directional-capacity-result" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ATS (กม./ชม.)</span>
-                                         <span id="in-ats-result" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-ats-result" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                     <div class="grid grid-cols-3 gap-4">
-                                         <span class="result-label">ความหนาแน่น D (PCU/กม./ช่อง)</span>
-                                         <span id="in-density-result" class="result-value text-center text-gray-800">-</span>
-                                         <span id="out-density-result" class="result-value text-center text-gray-800">-</span>
-                                     </div>
-                                      <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
-                                         <span class="result-label">ระดับการให้บริการ (LOS)</span>
-                                         <div class="text-center"><span id="in-los-result" class="los-badge">?</span></div>
-                                         <div class="text-center"><span id="out-los-result" class="los-badge">?</span></div>
-                                     </div>
-                                 </div>
-                             </section>
-
-                             <!-- Gemini AI Analysis Section -->
-                             <section>
-                                 <div class="text-center mt-4 flex items-center justify-center gap-2">
-                                     <button id="gemini-analyze-button" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                                         ✨ วิเคราะห์ผลลัพธ์ด้วย Gemini
-                                     </button>
-                                     <button id="edit-api-key-button" class="p-2 text-gray-500 hover:bg-gray-200 rounded-full">
-                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                     </button>
-                                 </div>
-                                 <div id="gemini-analysis-container" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
-                                     <div id="gemini-loader" class="text-center hidden">
-                                         <svg class="animate-spin h-8 w-8 text-indigo-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                         </svg>
-                                         <p class="text-sm text-gray-600 mt-2">กำลังวิเคราะห์ข้อมูลด้วย Gemini...</p>
-                                     </div>
-                                     <div id="gemini-result" class="prose prose-sm max-w-none"></div>
-                                 </div>
-                             </section>
+                         <div class="grid grid-cols-3 gap-4 items-center p-2 rounded-lg">
+                             <span class="result-label">ความหนาแน่น D <span class="text-xs">(PCU/กม./ช่อง)</span></span>
+                             <span id="in-density-result" class="result-value text-center">-</span>
+                             <span id="out-density-result" class="result-value text-center">-</span>
                          </div>
-                    </div>
+                         <div class="grid grid-cols-3 gap-4 items-center p-2 rounded-lg bg-gray-50">
+                             <span class="result-label">ATS <span class="text-xs">(กม./ชม.)</span></span>
+                             <span id="in-ats-result" class="result-value text-center">-</span>
+                             <span id="out-ats-result" class="result-value text-center">-</span>
+                         </div>
+                         <div class="grid grid-cols-3 gap-4 items-center p-2 rounded-lg">
+                             <span class="result-label">อัตราการไหล v <span class="text-xs">(PCU/ชม./ช่อง)</span></span>
+                             <span id="in-flow-rate-result" class="result-value text-center">-</span>
+                             <span id="out-flow-rate-result" class="result-value text-center">-</span>
+                         </div>
+                         <div class="grid grid-cols-3 gap-4 items-center p-2 rounded-lg bg-gray-50">
+                            <span class="result-label">ความจุต่อทิศทาง <span class="text-xs">(PCU/ชม.)</span></span>
+                            <span id="in-directional-capacity-result" class="result-value text-center">-</span>
+                            <span id="out-directional-capacity-result" class="result-value text-center">-</span>
+                        </div>
+                     </div>
+                     
+                     <!-- FFS Calculation Details -->
+                     <details class="pt-4">
+                        <summary class="cursor-pointer text-sm font-medium text-gray-500 hover:text-gray-900">
+                           แสดงรายละเอียดการคำนวณ FFS
+                        </summary>
+                        <div class="mt-4 border-t pt-4 space-y-2">
+                             <div class="grid grid-cols-3 gap-4 text-xs text-gray-500">
+                                 <span>ค่าปรับแก้</span>
+                                 <span class="text-center">ขาเข้า</span>
+                                 <span class="text-center">ขาออก</span>
+                             </div>
+                             <div class="grid grid-cols-3 gap-4 text-sm"><span>BFFS</span><span id="in-bbfs-val" class="text-center">-</span><span id="out-bbfs-val" class="text-center">-</span></div>
+                             <div class="grid grid-cols-3 gap-4 text-sm"><span>f_LW</span><span id="in-flw-val" class="text-center">-</span><span id="out-flw-val" class="text-center">-</span></div>
+                             <div class="grid grid-cols-3 gap-4 text-sm"><span>f_LC</span><span id="in-flc-val" class="text-center">-</span><span id="out-flc-val" class="text-center">-</span></div>
+                             <div class="grid grid-cols-3 gap-4 text-sm"><span>f_M</span><span id="in-fm-val" class="text-center">-</span><span id="out-fm-val" class="text-center">-</span></div>
+                             <div class="grid grid-cols-3 gap-4 text-sm"><span>f_APD</span><span id="in-fapd-val" class="text-center">-</span><span id="out-fapd-val" class="text-center">-</span></div>
+                             <div class="grid grid-cols-3 gap-4 font-bold border-t pt-2 mt-2">
+                                 <span class="text-base">FFS สุทธิ</span>
+                                 <span id="in-ffs-result" class="text-lg text-center text-blue-600">-</span>
+                                 <span id="out-ffs-result" class="text-lg text-center text-green-600">-</span>
+                             </div>
+                        </div>
+                     </details>
+
+                     <!-- Gemini AI Analysis Section -->
+                     <section class="pt-6 border-t">
+                         <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 text-purple-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L8 21"></path><path d="M14 3l2 18"></path><path d="M3 10h18"></path><path d="M3 14h18"></path></svg>
+                                <h3 class="font-semibold text-lg">AI Analysis</h3>
+                            </div>
+                            <button id="edit-api-key-button" class="p-2 text-gray-400 hover:bg-gray-200 rounded-full hover:text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </button>
+                         </div>
+                         <button id="gemini-analyze-button" class="mt-4 w-full bg-blue-500 text-white font-semibold px-4 py-3 rounded-lg shadow-sm hover:bg-blue-600 transform hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                             วิเคราะห์ผลลัพธ์ด้วย Gemini
+                         </button>
+                         <div id="gemini-analysis-container" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 hidden">
+                             <div id="gemini-loader" class="text-center hidden">
+                                 <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                 </svg>
+                                 <p class="text-sm text-gray-600 mt-2">กำลังวิเคราะห์ข้อมูลด้วย Gemini...</p>
+                             </div>
+                             <div id="gemini-result" class="prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-gray-800"></div>
+                         </div>
+                     </section>
+                 </div>
             </div>
         </div>
 
-        <footer class="text-center mt-12 mb-4">
-            <p class="text-xs text-gray-500">
-                หมายเหตุ: เป็นการประเมินความจุและระดับการให้บริการของช่วงถนนบนทางหลวงหลายช่องจราจร กรณีประเมินเฉลี่ยทุกช่องจราจร
-                <br>
+        <footer class="text-center mt-12 py-6 border-t">
+            <p class="text-sm text-gray-500">
                 อ้างอิงตาม "คู่มือความจุทางหลวงสำหรับทางหลวงหลายช่องจราจร" โดย กรมทางหลวง พ.ศ. 2566
             </p>
-            <p class="text-xs text-gray-500 mt-2">
+            <p class="text-xs text-gray-400 mt-2">
                 พัฒนาโปรแกรมโดย กิตติพัฒน์ ตั้งอิทธินันท์ ร่วมกับ Google Gemini
             </p>
         </footer>
@@ -521,7 +437,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const pceData = {
-                lanes_2: { // Corresponds to user's "2 lanes" table
+                lanes_2: {
                     grade:   [-6,   -5,   -4,   -3,   -2,   -1,    0,    1,    2,    3,    4,    5,    6],
                     'MC/TC': [0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99],
                     'LT/LB': [1.09, 1.09, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.11, 1.11, 1.11],
@@ -529,7 +445,7 @@
                     'MB/HB': [1.45, 1.45, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.47, 1.47],
                     'FT/ST': [1.73, 1.72, 1.70, 1.69, 1.68, 1.67, 1.67, 1.67, 1.68, 1.68, 1.69, 1.71, 1.73]
                 },
-                lanes_gt_2: { // Corresponds to user's "> 2 lanes" table
+                lanes_gt_2: {
                     grade:   [-6,   -5,   -4,   -3,   -2,   -1,    0,    1,    2,    3,    4,    5,    6],
                     'MC/TC': [1.01, 1.01, 1.00, 1.00, 1.00, 0.99, 0.99, 0.99, 0.98, 0.98, 0.97, 0.97, 0.97],
                     'LT/LB': [1.09, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.10, 1.11, 1.11, 1.11],
@@ -539,7 +455,6 @@
                 }
             };
 
-            // --- Utility Functions ---
             function showToast(message, type = 'info') {
                 const container = document.getElementById('toast-container');
                 const toast = document.createElement('div');
@@ -556,95 +471,51 @@
             function interpolate(x, x1, y1, x2, y2) { if (x1 === x2) return y1; return y1 + ((x - x1) * (y2 - y1)) / (x2 - x1); }
             function getPceValue(table, vehicleType, gradePercent) { const grades = table.grade; const pceValues = table[vehicleType]; if (gradePercent <= grades[0]) return pceValues[0]; if (gradePercent >= grades[grades.length - 1]) return pceValues[pceValues.length - 1]; for (let i = 0; i < grades.length - 1; i++) { if (gradePercent >= grades[i] && gradePercent <= grades[i+1]) { return interpolate(gradePercent, grades[i], pceValues[i], grades[i+1], pceValues[i+1]); } } const zeroIndex = grades.indexOf(0); return pceValues[zeroIndex >= 0 ? zeroIndex : Math.floor(grades.length/2)]; }
             
-            // --- UPDATED Helper Functions for ATS and LOS based on new tables ---
-
-            // Data structure holding metrics from the provided tables
             const losMetrics = {
                 '2_lanes': {
-                    // FFS: [max_density_D, max_density_E, ats_at_capacity, capacity]
-                    100: [19, 23, 90.0, 2100],
-                    90:  [22, 26, 75.0, 2000],
-                    80:  [22, 27, 68.0, 1900],
-                    70:  [22, 28, 62.0, 1750],
-                    60:  [22, 30, 54.0, 1600]
+                    100: [19, 23, 90.0, 2100], 90: [22, 26, 75.0, 2000], 80: [22, 27, 68.0, 1900], 70: [22, 28, 62.0, 1750], 60: [22, 30, 54.0, 1600]
                 },
                 'gt_2_lanes': {
-                    // FFS: [max_density_D, max_density_E, ats_at_capacity, capacity]
-                    100: [19, 26, 82.0, 2100],
-                    90:  [22, 26, 75.0, 2000],
-                    80:  [22, 27, 68.0, 1900],
-                    70:  [22, 28, 62.0, 1750],
-                    60:  [22, 30, 54.0, 1600]
+                    100: [19, 26, 82.0, 2100], 90: [22, 26, 75.0, 2000], 80: [22, 27, 68.0, 1900], 70: [22, 28, 62.0, 1750], 60: [22, 30, 54.0, 1600]
                 }
             };
 
-            /**
-             * Gets the correct performance metrics for a given FFS and lane count, with interpolation.
-             * @param {number} numLanes - The number of lanes in one direction.
-             * @param {number} ffs - The Free-Flow Speed.
-             * @returns {Array<number>} An array containing [max_density_D, max_density_E, ats_at_capacity, capacity].
-             */
             function getMetricsForFfs(numLanes, ffs) {
                 const laneGroup = numLanes === 2 ? '2_lanes' : 'gt_2_lanes';
                 const table = losMetrics[laneGroup];
-                const ffsPoints = Object.keys(table).map(Number).sort((a, b) => b - a); // [100, 90, 80, 70, 60]
-
+                const ffsPoints = Object.keys(table).map(Number).sort((a, b) => b - a);
                 if (ffs >= ffsPoints[0]) return table[ffsPoints[0]];
                 if (ffs <= ffsPoints[ffsPoints.length - 1]) return table[ffsPoints[ffsPoints.length - 1]];
-
                 for (let i = 0; i < ffsPoints.length - 1; i++) {
-                    const upperFfs = ffsPoints[i];
-                    const lowerFfs = ffsPoints[i + 1];
+                    const upperFfs = ffsPoints[i]; const lowerFfs = ffsPoints[i + 1];
                     if (ffs <= upperFfs && ffs > lowerFfs) {
-                        const upperMetrics = table[upperFfs];
-                        const lowerMetrics = table[lowerFfs];
-                        // Interpolate each metric
+                        const upperMetrics = table[upperFfs]; const lowerMetrics = table[lowerFfs];
                         return [
-                            interpolate(ffs, lowerFfs, lowerMetrics[0], upperFfs, upperMetrics[0]), // max_density_D
-                            interpolate(ffs, lowerFfs, lowerMetrics[1], upperFfs, upperMetrics[1]), // max_density_E
-                            interpolate(ffs, lowerFfs, lowerMetrics[2], upperFfs, upperMetrics[2]), // ats_at_capacity
-                            interpolate(ffs, lowerFfs, lowerMetrics[3], upperFfs, upperMetrics[3]), // capacity
+                            interpolate(ffs, lowerFfs, lowerMetrics[0], upperFfs, upperMetrics[0]),
+                            interpolate(ffs, lowerFfs, lowerMetrics[1], upperFfs, upperMetrics[1]),
+                            interpolate(ffs, lowerFfs, lowerMetrics[2], upperFfs, upperMetrics[2]),
+                            interpolate(ffs, lowerFfs, lowerMetrics[3], upperFfs, upperMetrics[3]),
                         ];
                     }
                 }
-                return table[90]; // Fallback, should not be reached
+                return table[90];
             }
 
-            /**
-             * Calculates the Average Travel Speed (ATS) based on FFS, flow rate, and number of lanes.
-             * @param {number} ffs - Free-Flow Speed.
-             * @param {number} flowRate - Service flow rate (v).
-             * @param {number} numLanes - Number of lanes in one direction.
-             * @returns {number} The calculated ATS.
-             */
             function calculateATS(ffs, flowRate, numLanes) {
                 const metrics = getMetricsForFfs(numLanes, ffs);
-                const atsAtCapacity = metrics[2];
-                const capacity = metrics[3];
-
+                const atsAtCapacity = metrics[2]; const capacity = metrics[3];
                 if (flowRate >= capacity) return atsAtCapacity;
-                // Linear interpolation between (0, FFS) and (capacity, ATS at capacity)
                 return interpolate(flowRate, 0, ffs, capacity, atsAtCapacity);
             }
 
-            /**
-             * Determines the Level of Service (LOS) based on traffic density, FFS, and number of lanes.
-             * @param {number} density - Traffic density.
-             * @param {number} ffs - Free-Flow Speed.
-             * @param {number} numLanes - Number of lanes in one direction.
-             * @returns {object} An object with LOS level and CSS class.
-             */
             function getLOS(density, ffs, numLanes) {
                 const metrics = getMetricsForFfs(numLanes, ffs);
-                const maxDensityD = metrics[0];
-                const maxDensityE = metrics[1];
-
+                const [maxDensityD, maxDensityE] = [metrics[0], metrics[1]];
                 if (density <= 7) return { level: 'A', class: 'los-a' };
                 if (density <= 11) return { level: 'B', class: 'los-b' };
                 if (density <= 16) return { level: 'C', class: 'los-c' };
                 if (density <= maxDensityD) return { level: 'D', class: 'los-d' };
                 if (density <= maxDensityE) return { level: 'E', class: 'los-e' };
-                
                 return { level: 'F', class: 'los-f' };
             }
             
@@ -659,7 +530,6 @@
                 const gradePercent = parseFloat(document.getElementById(prefix + '-gradePercent').value) || 0;
                 let directionalSplit = (prefix === 'in') ? (parseFloat(document.getElementById('in-directionalSplit').value) || 0) : (1 - (parseFloat(document.getElementById('in-directionalSplit').value) || 0));
 
-                // Step 2: FFS
                 const BFFS = 90.0;
                 let flw = (laneWidth < 3.25) ? 12.4 : (laneWidth < 3.50) ? 6.2 : 0;
                 let flc = 0;
@@ -674,25 +544,13 @@
                 document.getElementById(prefix + '-fm-val').innerText = fm.toFixed(1);
                 document.getElementById(prefix + '-fapd-val').innerText = fapd.toFixed(1);
 
-                // PCE Calculation
-                let std_pce_mctc, std_pce_ltlb, std_pce_mbhb, std_pce_mtht, std_pce_ftst;
-
-                // Select the correct PCE table based on the number of lanes.
                 const pceTable = numLanes === 2 ? pceData.lanes_2 : pceData.lanes_gt_2;
-
-                // Calculate PCE for each vehicle type by interpolating from the selected table.
-                std_pce_mctc = getPceValue(pceTable, 'MC/TC', gradePercent);
-                std_pce_ltlb = getPceValue(pceTable, 'LT/LB', gradePercent);
-                std_pce_mbhb = getPceValue(pceTable, 'MB/HB', gradePercent);
-                std_pce_mtht = getPceValue(pceTable, 'MT/HT', gradePercent);
-                std_pce_ftst = getPceValue(pceTable, 'FT/ST', gradePercent);
-
                 if (!document.getElementById('manualPceToggle').checked) {
-                    document.getElementById(prefix + '-pce-mctc').value = std_pce_mctc.toFixed(2);
-                    document.getElementById(prefix + '-pce-mbhb').value = std_pce_mbhb.toFixed(2);
-                    document.getElementById(prefix + '-pce-ltlb').value = std_pce_ltlb.toFixed(2);
-                    document.getElementById(prefix + '-pce-mtht').value = std_pce_mtht.toFixed(2);
-                    document.getElementById(prefix + '-pce-ftst').value = std_pce_ftst.toFixed(2);
+                    document.getElementById(prefix + '-pce-mctc').value = getPceValue(pceTable, 'MC/TC', gradePercent).toFixed(2);
+                    document.getElementById(prefix + '-pce-mbhb').value = getPceValue(pceTable, 'MB/HB', gradePercent).toFixed(2);
+                    document.getElementById(prefix + '-pce-ltlb').value = getPceValue(pceTable, 'LT/LB', gradePercent).toFixed(2);
+                    document.getElementById(prefix + '-pce-mtht').value = getPceValue(pceTable, 'MT/HT', gradePercent).toFixed(2);
+                    document.getElementById(prefix + '-pce-ftst').value = getPceValue(pceTable, 'FT/ST', gradePercent).toFixed(2);
                 }
 
                 let pce_mctc = parseFloat(document.getElementById(prefix + '-pce-mctc').value) || 1;
@@ -701,27 +559,21 @@
                 let pce_mtht = parseFloat(document.getElementById(prefix + '-pce-mtht').value) || 1;
                 let pce_ftst = parseFloat(document.getElementById(prefix + '-pce-ftst').value) || 1;
                 
-                // Step 3: Flow Rate
-                const totalDailyPcu = (sharedData.aadt_pc * 1.0) + (sharedData.aadt_mctc * pce_mctc) + (sharedData.aadt_mbhb * pce_mbhb) + (sharedData.aadt_ltlb * pce_ltlb) + (sharedData.aadt_mtht * pce_mtht) + (sharedData.aadt_ftst * pce_ftst);
-                document.getElementById(prefix + '-daily-pcu').innerText = totalDailyPcu.toLocaleString(undefined, {maximumFractionDigits: 0});
-                
+                const totalDailyPcu = (sharedData.aadt_pc) + (sharedData.aadt_mctc * pce_mctc) + (sharedData.aadt_mbhb * pce_mbhb) + (sharedData.aadt_ltlb * pce_ltlb) + (sharedData.aadt_mtht * pce_mtht) + (sharedData.aadt_ftst * pce_ftst);
                 const peakHourVolumePCU = totalDailyPcu * directionalSplit * sharedData.kFactor;
                 const serviceFlowRate = (numLanes * sharedData.phf > 0) ? peakHourVolumePCU / (numLanes * sharedData.phf) : 0;
-                
                 document.getElementById(prefix + '-flow-rate-result').innerText = serviceFlowRate.toFixed(0);
 
-                // Step 4: Capacity
                 const metrics = getMetricsForFfs(numLanes, ffs);
                 const capacity = metrics[3];
                 document.getElementById(prefix + '-directional-capacity-result').innerText = Math.round(capacity * numLanes).toLocaleString();
 
-                // Step 5: ATS
                 const ats = calculateATS(ffs, serviceFlowRate, numLanes);
                 document.getElementById(prefix + '-ats-result').innerText = ats.toFixed(1);
                 
-                // Step 6: Density and LOS
                 const density = ats > 0 ? serviceFlowRate / ats : 0;
                 document.getElementById(prefix + '-density-result').innerText = density.toFixed(1);
+
                 const los = getLOS(density, ffs, numLanes);
                 const losEl = document.getElementById(prefix + '-los-result');
                 losEl.innerText = los.level;
@@ -749,82 +601,40 @@
                 document.getElementById('out-directionalSplit-display').value = (1 - inD).toFixed(2);
             }
             
-            // --- Input Validation and Formatting ---
             function validateInput(event) {
                 const input = event.target;
                 if(input.type !== 'number') return;
-
-                const value = parseFloat(input.value);
-                const min = parseFloat(input.min);
-                const max = parseFloat(input.max);
-                let corrected = false;
-
-                if (!isNaN(min) && value < min) {
-                    input.value = min;
-                    corrected = true;
-                    showToast(`ค่าต้องไม่น้อยกว่า ${min}`, 'error');
-                }
-                if (!isNaN(max) && value > max) {
-                    input.value = max;
-                    corrected = true;
-                    showToast(`ค่าต้องไม่เกิน ${max}`, 'error');
-                }
-
-                if (corrected) {
-                    input.dispatchEvent(new Event('input')); // Recalculate if value was changed
+                const value = parseFloat(input.value); const min = parseFloat(input.min); const max = parseFloat(input.max);
+                if ((!isNaN(min) && value < min) || (!isNaN(max) && value > max)) {
+                    input.value = !isNaN(min) && value < min ? min : max;
+                    showToast(`ค่าต้องอยู่ระหว่าง ${min} และ ${max}`, 'error');
+                    input.dispatchEvent(new Event('input'));
                 }
             }
             
-            function formatAADT(event){
-                let input = event.target;
-                let value = unformatNumber(input.value);
-                if(value) {
-                    input.value = parseInt(value, 10).toLocaleString('en-US');
-                }
-            }
+            function formatAADT(event){ let input = event.target; let value = unformatNumber(input.value); if(value) { input.value = parseInt(value, 10).toLocaleString('en-US'); } }
+            function unformatAADT(event){ let input = event.target; input.value = unformatNumber(input.value); }
 
-            function unformatAADT(event){
-                let input = event.target;
-                input.value = unformatNumber(input.value);
-            }
-
-            // --- Event Listeners and Initializers ---
-            document.querySelectorAll('input, input[type="radio"]').forEach(input => {
-                input.addEventListener('input', masterAnalyze)
-            });
-            
-            document.querySelectorAll('input[type="number"]').forEach(input => {
-                input.addEventListener('blur', validateInput); 
-            });
+            document.querySelectorAll('input, input[type="radio"]').forEach(input => { input.addEventListener('input', masterAnalyze) });
+            document.querySelectorAll('input[type="number"]').forEach(input => { input.addEventListener('blur', validateInput); });
             
             const aadtInputIds = ['aadt_pc', 'aadt_mctc', 'aadt_mbhb', 'aadt_ltlb', 'aadt_mtht', 'aadt_ftst'];
-            aadtInputIds.forEach(id => {
-                const input = document.getElementById(id);
-                input.addEventListener('blur', formatAADT);
-                input.addEventListener('focus', unformatAADT);
-            });
-
+            aadtInputIds.forEach(id => { const input = document.getElementById(id); input.addEventListener('blur', formatAADT); input.addEventListener('focus', unformatAADT); });
 
             const manualPceToggle = document.getElementById('manualPceToggle');
-            const pceInputGroups = document.querySelectorAll('.pce-input-group');
             function togglePceInputs() {
                 const isManual = manualPceToggle.checked;
-                pceInputGroups.forEach(group => {
-                    group.querySelectorAll('input').forEach(input => {
-                        input.readOnly = !isManual;
-                        input.classList.toggle('bg-gray-100', !isManual);
-                    });
+                document.querySelectorAll('.pce-input-group input').forEach(input => {
+                    input.readOnly = !isManual;
+                    input.classList.toggle('bg-gray-100', !isManual);
                 });
-                masterAnalyze();
+                if (!isManual) masterAnalyze();
             }
             manualPceToggle.addEventListener('change', togglePceInputs);
             
             document.getElementById('menu-clear-button').addEventListener('click', () => {
-                document.getElementById('projectName').value = '';
                 document.querySelectorAll('input[type="number"], input[type="text"]').forEach(input => {
-                    if(input.id !== 'projectName' && input.id !== 'out-directionalSplit-display') {
-                        input.value = '';
-                    }
+                    if(input.id !== 'out-directionalSplit-display') input.value = '';
                 });
                  document.querySelector('input[name="medianType"][value="0"]').checked = true;
                  if (manualPceToggle.checked) manualPceToggle.click();
@@ -835,10 +645,8 @@
             document.getElementById('menu-export-excel-button').addEventListener('click', exportResultsToExcel);
             document.getElementById('menu-export-report-button').addEventListener('click', exportReportToWord);
 
-            // --- Save/Load Functionality ---
             const saveButton = document.getElementById('menu-save-button');
             const projectNameInput = document.getElementById('projectName');
-
             const inputIds = [
                 'projectName', 'phf', 'kFactor', 'aadt_pc', 'aadt_mctc', 'aadt_mbhb', 'aadt_ltlb', 'aadt_mtht', 'aadt_ftst',
                 'in-laneWidth', 'in-shoulderWidth', 'in-numLanes', 'in-gradePercent', 'in-accessPointDensity', 'in-directionalSplit',
@@ -848,167 +656,78 @@
             ];
             const radioNames = ['medianType'];
 
-            projectNameInput.addEventListener('input', () => {
-                saveButton.disabled = projectNameInput.value.trim() === '';
-            });
+            projectNameInput.addEventListener('input', () => { saveButton.disabled = projectNameInput.value.trim() === ''; });
 
             function loadData(data) {
                 try {
-                    inputIds.forEach(id => {
-                        const el = document.getElementById(id);
-                        if (data[id] !== undefined) {
-                            if (el.type === 'checkbox') {
-                                el.checked = data[id];
-                            } else {
-                                el.value = data[id];
-                            }
-                        }
-                    });
-                    radioNames.forEach(name => {
-                        if (data[name]) {
-                            document.querySelector(`input[name="${name}"][value="${data[name]}"]`).checked = true;
-                        }
-                    });
-                    
+                    inputIds.forEach(id => { const el = document.getElementById(id); if (data[id] !== undefined) { el.type === 'checkbox' ? el.checked = data[id] : el.value = data[id]; } });
+                    radioNames.forEach(name => { if (data[name]) { document.querySelector(`input[name="${name}"][value="${data[name]}"]`).checked = true; } });
                     document.getElementById('manualPceToggle').dispatchEvent(new Event('change'));
-                    masterAnalyze();
                     aadtInputIds.forEach(id => document.getElementById(id).dispatchEvent(new Event('blur')));
+                    masterAnalyze();
                     projectNameInput.dispatchEvent(new Event('input')); 
                     showToast('โหลดข้อมูลสำเร็จ!', 'success');
-                } catch (error) {
-                    console.error("Error loading data:", error);
-                    showToast('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'error');
-                }
+                } catch (error) { console.error("Error loading data:", error); showToast('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'error'); }
             }
             
-            function saveProjectToFile() {
+            document.getElementById('menu-save-button').addEventListener('click', () => {
                 const projectName = projectNameInput.value.trim();
-                if (!projectName) {
-                    showToast('กรุณาใส่ชื่อโครงการก่อนบันทึก', 'error');
-                    return;
-                }
-
+                if (!projectName) { showToast('กรุณาใส่ชื่อโครงการก่อนบันทึก', 'error'); return; }
                 const data = {};
-                inputIds.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el.type === 'checkbox') data[id] = el.checked;
-                    else data[id] = unformatNumber(el.value); // Save unformatted numbers
-                });
-                radioNames.forEach(name => {
-                    data[name] = document.querySelector(`input[name="${name}"]:checked`).value;
-                });
-
-                const dataString = JSON.stringify(data, null, 2);
-                const blob = new Blob([dataString], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                
+                inputIds.forEach(id => { const el = document.getElementById(id); data[id] = el.type === 'checkbox' ? el.checked : unformatNumber(el.value); });
+                radioNames.forEach(name => { data[name] = document.querySelector(`input[name="${name}"]:checked`).value; });
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const a = document.createElement('a');
-                a.href = url;
+                a.href = URL.createObjectURL(blob);
                 a.download = `${projectName}.json`;
-                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                URL.revokeObjectURL(a.href);
                 showToast('บันทึกไฟล์สำเร็จ!', 'success');
-            }
-
-            const importButton = document.getElementById('menu-open-button');
-            const importFileInput = document.getElementById('import-file-input');
-
-            importButton.addEventListener('click', () => {
-                importFileInput.click();
             });
-
-            importFileInput.addEventListener('change', (event) => {
+            
+            document.getElementById('menu-open-button').addEventListener('click', () => document.getElementById('import-file-input').click());
+            document.getElementById('import-file-input').addEventListener('change', (event) => {
                 const file = event.target.files[0];
-                if (!file) {
-                    return;
-                }
-
+                if (!file) return;
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        loadData(data);
-                    } catch (error) {
-                        console.error("Error parsing project file:", error);
-                        showToast('ไฟล์ที่นำเข้าไม่ถูกต้อง', 'error');
-                    }
-                };
+                reader.onload = (e) => { try { loadData(JSON.parse(e.target.result)); } catch (error) { console.error("Error parsing file:", error); showToast('ไฟล์ที่นำเข้าไม่ถูกต้อง', 'error'); } };
                 reader.readAsText(file);
                 event.target.value = '';
             });
             
-            saveButton.addEventListener('click', saveProjectToFile);
-            
-            // --- Sample Data ---
-            const sampleData = {
-                "projectName": "ตัวอย่าง: ทางหลวงหมายเลข 4 (เพชรเกษม)", "phf": "0.92", "kFactor": "0.1",
-                "aadt_pc": "15000", "aadt_mctc": "2500", "aadt_mbhb": "500", "aadt_ltlb": "1200", "aadt_mtht": "800", "aadt_ftst": "400",
-                "in-laneWidth": "3.5", "in-shoulderWidth": "2.5", "in-numLanes": "2", "in-gradePercent": "1", "in-accessPointDensity": "3", "in-directionalSplit": "0.55",
-                "out-laneWidth": "3.5", "out-shoulderWidth": "2.5", "out-numLanes": "2", "out-gradePercent": "-1", "out-accessPointDensity": "3",
-                "manualPceToggle": false, "in-pce-mctc": "", "in-pce-mbhb": "", "in-pce-ltlb": "", "in-pce-mtht": "", "in-pce-ftst": "",
-                "out-pce-mctc": "", "out-pce-mbhb": "", "out-pce-ltlb": "", "out-pce-mtht": "", "out-pce-ftst": "",
-                "medianType": "0"
-            };
-
             document.getElementById('menu-load-sample-button').addEventListener('click', () => {
+                const sampleData = { "projectName": "ตัวอย่าง: ทางหลวงหมายเลข 4 (เพชรเกษม)", "phf": "0.92", "kFactor": "0.1", "aadt_pc": "15000", "aadt_mctc": "2500", "aadt_mbhb": "500", "aadt_ltlb": "1200", "aadt_mtht": "800", "aadt_ftst": "400", "in-laneWidth": "3.5", "in-shoulderWidth": "2.5", "in-numLanes": "2", "in-gradePercent": "1", "in-accessPointDensity": "3", "in-directionalSplit": "0.55", "out-laneWidth": "3.5", "out-shoulderWidth": "2.5", "out-numLanes": "2", "out-gradePercent": "-1", "out-accessPointDensity": "3", "manualPceToggle": false, "in-pce-mctc": "", "in-pce-mbhb": "", "in-pce-ltlb": "", "in-pce-mtht": "", "in-pce-ftst": "", "out-pce-mctc": "", "out-pce-mbhb": "", "out-pce-ltlb": "", "out-pce-mtht": "", "out-pce-ftst": "", "medianType": "0" };
                 loadData(sampleData);
             });
 
-            // Initial setup on load
             togglePceInputs();
 
-            // --- Gemini API ---
-            const isCanvasEnvironment = typeof __app_id !== 'undefined';
-            
             const analyzeButton = document.getElementById('gemini-analyze-button');
             const geminiContainer = document.getElementById('gemini-analysis-container');
             const geminiLoader = document.getElementById('gemini-loader');
             const geminiResultDiv = document.getElementById('gemini-result');
-            
             const apiKeyModal = document.getElementById('api-key-modal');
             const apiKeyInput = document.getElementById('gemini-api-key-input');
-            const saveApiKeyButton = document.getElementById('save-api-key-button');
-            const cancelApiKeyButton = document.getElementById('cancel-api-key-button');
-            const editApiKeyButton = document.getElementById('edit-api-key-button');
 
-            function showApiKeyModal() {
-                let currentKey = localStorage.getItem('geminiApiKey');
-                apiKeyInput.value = currentKey || '';
-                apiKeyModal.classList.remove('hidden');
-            }
+            function showApiKeyModal() { apiKeyInput.value = localStorage.getItem('geminiApiKey') || ''; apiKeyModal.classList.remove('hidden'); }
+            function hideApiKeyModal() { apiKeyModal.classList.add('hidden'); }
 
-            function hideApiKeyModal() {
-                apiKeyModal.classList.add('hidden');
-            }
-
-            editApiKeyButton.addEventListener('click', showApiKeyModal);
-            cancelApiKeyButton.addEventListener('click', hideApiKeyModal);
-
-            saveApiKeyButton.addEventListener('click', () => {
+            document.getElementById('edit-api-key-button').addEventListener('click', showApiKeyModal);
+            document.getElementById('cancel-api-key-button').addEventListener('click', hideApiKeyModal);
+            document.getElementById('save-api-key-button').addEventListener('click', () => {
                 const newKey = apiKeyInput.value.trim();
                 if (newKey) {
                     localStorage.setItem('geminiApiKey', newKey);
                     showToast('API Key บันทึกเรียบร้อยแล้ว', 'success');
                     hideApiKeyModal();
-                    runGeminiAnalysis(newKey); // Proceed with analysis after saving
-                } else {
-                    showToast('กรุณาใส่ API Key', 'error');
-                }
+                    runGeminiAnalysis(newKey);
+                } else { showToast('กรุณาใส่ API Key', 'error'); }
             });
-
             analyzeButton.addEventListener('click', () => {
-                if (isCanvasEnvironment) {
-                    runGeminiAnalysis(""); // Use the environment-provided key
-                } else {
-                    let userApiKey = localStorage.getItem('geminiApiKey');
-                    if (userApiKey) {
-                        runGeminiAnalysis(userApiKey);
-                    } else {
-                        showApiKeyModal(); // Ask for a key if not in Canvas and no key is stored
-                    }
-                }
+                const userApiKey = localStorage.getItem('geminiApiKey');
+                if (typeof __app_id !== 'undefined') { runGeminiAnalysis(""); }
+                else if (userApiKey) { runGeminiAnalysis(userApiKey); } 
+                else { showApiKeyModal(); }
             });
 
             async function runGeminiAnalysis(apiKey) {
@@ -1019,68 +738,33 @@
 
                 try {
                     const data = gatherDataForExport();
-                    const prompt = `
-                        คุณคือผู้เชี่ยวชาญด้านวิศวกรรมจราจรที่มีประสบการณ์สูง 
-                        โปรดเขียนบทสรุปและวิเคราะห์ผลการประเมินระดับการให้บริการ (LOS) สำหรับโครงการต่อไปนี้ โดยใช้ภาษาที่เข้าใจง่ายสำหรับผู้บริหาร แต่ยังคงความถูกต้องทางเทคนิค พร้อมทั้งให้ข้อเสนอแนะทั่วไปหากระดับการให้บริการต่ำกว่า C
-
-                        **ข้อมูลโครงการ:**
-                        - **ชื่อโครงการ:** ${data.projectName}
-                        
-                        **ผลการวิเคราะห์ทิศทางขาเข้า:**
-                        - **ระดับการให้บริการ (LOS):** ${data.in_los}
-                        - **ความหนาแน่น (Density):** ${data.in_density.toFixed(2)} PCU/กม./ช่อง
-                        - **ความเร็วเดินทางเฉลี่ย (ATS):** ${data.in_ats.toFixed(2)} กม./ชม.
-
-                        **ผลการวิเคราะห์ทิศทางขาออก:**
-                        - **ระดับการให้บริการ (LOS):** ${data.out_los}
-                        - **ความหนาแน่น (Density):** ${data.out_density.toFixed(2)} PCU/กม./ช่อง
-                        - **ความเร็วเดินทางเฉลี่ย (ATS):** ${data.out_ats.toFixed(2)} กม./ชม.
-
-                        **รูปแบบการนำเสนอ:**
-                        โปรดจัดรูปแบบคำตอบโดยใช้ Markdown และใช้หัวข้อที่ชัดเจน แบ่งเป็น:
-                        1.  **บทสรุปสำหรับผู้บริหาร:** สรุปภาพรวมของผลลัพธ์อย่างกระชับ
-                        2.  **การวิเคราะห์สภาพการจราจร:** อธิบายความหมายของค่า LOS และความหนาแน่นที่เกิดขึ้นในแต่ละทิศทาง
-                        3.  **ข้อเสนอแนะเบื้องต้น:** (แสดงส่วนนี้ก็ต่อเมื่อมี LOS อย่างน้อยหนึ่งทิศทางที่ได้ระดับ C, D, E, หรือ F) ให้คำแนะนำทั่วไปที่สามารถทำได้เพื่อปรับปรุงสภาพการจราจร
-                    `;
+                    const prompt = `คุณคือผู้เชี่ยวชาญด้านวิศวกรรมจราจร โปรดเขียนบทสรุปและวิเคราะห์ผลการประเมิน LOS สำหรับโครงการ '${data.projectName}' โดยใช้ภาษาที่เข้าใจง่ายสำหรับผู้บริหาร แต่ยังคงความถูกต้องทางเทคนิค พร้อมข้อเสนอแนะหาก LOS ต่ำกว่า C\n\n**ผลขาเข้า:**\n- LOS: ${data.in_los}\n- Density: ${data.in_density.toFixed(2)} PCU/กม./ช่อง\n- ATS: ${data.in_ats.toFixed(2)} กม./ชม.\n\n**ผลขาออก:**\n- LOS: ${data.out_los}\n- Density: ${data.out_density.toFixed(2)} PCU/กม./ช่อง\n- ATS: ${data.out_ats.toFixed(2)} กม./ชม.\n\n**รูปแบบ:**\nโปรดจัดรูปแบบคำตอบโดยใช้ Markdown ดังนี้:\n1. **บทสรุปสำหรับผู้บริหาร:**\n2. **การวิเคราะห์สภาพการจราจร:**\n3. **ข้อเสนอแนะเบื้องต้น:** (ถ้าจำเป็น)`;
 
                     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                    
                     const payload = { contents: [{ parts: [{ text: prompt }] }] };
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
 
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                         const errorBody = await response.json();
-                         console.error("API Error Response:", errorBody);
-                         throw new Error(`API request failed with status ${response.status}: ${errorBody.error.message}`);
-                    }
+                    if (!response.ok) { const errorBody = await response.json(); throw new Error(`API request failed: ${errorBody.error.message}`); }
 
                     const result = await response.json();
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัย ไม่สามารถสร้างบทวิเคราะห์ได้ในขณะนี้";
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัย ไม่สามารถสร้างบทวิเคราะห์ได้";
                     
                     let html = text
+                        .replace(/(\d\.\s\*\*.*?\*\*)/g, '<h4 class="mt-4 mb-2">$1</h4>')
                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\* (.*?)\n/g, '<li>$1</li>') 
-                        .replace(/<li>/g, '<li class="ml-4 list-disc">')
+                        .replace(/\* (.*?)(?=\n\*|\n\n|$)/g, '<li class="ml-5 list-disc">$1</li>')
                         .replace(/\n/g, '<br>');
-
                     geminiResultDiv.innerHTML = html;
-
                 } catch (error) {
                     console.error("Error calling Gemini API:", error);
-                    geminiResultDiv.innerHTML = `<p class="text-red-500">เกิดข้อผิดพลาด: ${error.message}<br>กรุณาตรวจสอบ API Key ของคุณ หรือลองใหม่อีกครั้ง</p>`;
+                    geminiResultDiv.innerHTML = `<p class="text-red-600">เกิดข้อผิดพลาด: ${error.message}</p>`;
                 } finally {
                     geminiLoader.classList.add('hidden');
                     analyzeButton.disabled = false;
                 }
             }
-
-
-            // --- Export Functions ---
+            
+            // --- UPDATED Export Functions (Full Version) ---
             function gatherDataForExport() {
                 return {
                     projectName: document.getElementById('projectName').value || 'ไม่ได้ระบุ',
@@ -1119,8 +803,8 @@
                     aadt_ftst: Number(unformatNumber(document.getElementById('aadt_ftst').value)) || 0,
                     kFactor: document.getElementById('kFactor').value || "0.00",
                     phf: document.getElementById('phf').value || "0.00",
-                    in_dailyPcu: Number(document.getElementById('in-daily-pcu').innerText.replace(/,/g, '')) || 0,
-                    out_dailyPcu: Number(document.getElementById('out-daily-pcu').innerText.replace(/,/g, '')) || 0,
+                    in_dailyPcu: Number(unformatNumber(document.getElementById('in-flow-rate-result').innerText)) * (parseInt(document.getElementById('in-numLanes').value) || 1) * (parseFloat(document.getElementById('phf').value) || 1) / ((parseFloat(document.getElementById('in-directionalSplit').value) || 0.5) * (parseFloat(document.getElementById('kFactor').value) || 0.1)) || 0,
+                    out_dailyPcu: Number(unformatNumber(document.getElementById('out-flow-rate-result').innerText)) * (parseInt(document.getElementById('out-numLanes').value) || 1) * (parseFloat(document.getElementById('phf').value) || 1) / ((1-(parseFloat(document.getElementById('in-directionalSplit').value) || 0.5)) * (parseFloat(document.getElementById('kFactor').value) || 0.1)) || 0,
                     in_flowRate: Number(document.getElementById('in-flow-rate-result').innerText) || 0,
                     out_flowRate: Number(document.getElementById('out-flow-rate-result').innerText) || 0,
                     in_capacity: Number(document.getElementById('in-directional-capacity-result').innerText.replace(/,/g, '')) || 0,
@@ -1254,9 +938,9 @@
                             new Paragraph({ text: `ขั้นตอนที่ 3: การวิเคราะห์อัตราการไหลจราจร (Flow Rate)`, heading: HeadingLevel.HEADING_2 }),
                             new Paragraph("v = (V×D×K)/(PHF×N)    เมื่อ V = Σ(AADTรถประเภท i × PCEรถประเภท i)"),
                             new Paragraph(`ปริมาณจราจรรายวัน (V) = (${data.aadt_pc}*1.0) + (${data.aadt_mctc}*${data.in_pce_mctc}) + (${data.aadt_ltlb}*${data.in_pce_ltlb}) + (${data.aadt_mtht}*${data.in_pce_mtht}) + (${data.aadt_ftst}*${data.in_pce_ftst}) + (${data.aadt_mbhb}*${data.in_pce_mbhb})`),
-                            new Paragraph(`ปริมาณจราจรรายวัน (V) = ${(data.in_dailyPcu).toLocaleString()} PCU/วัน`),
-                            new Paragraph(`อัตราการไหล (v) ขาเข้า = (${(data.in_dailyPcu).toLocaleString()}x${data.in_directionalSplit}x${data.kFactor})/(${data.phf}x${data.in_numLanes}) = ${data.in_flowRate} PCU/ชม./ช่อง`),
-                            new Paragraph(`อัตราการไหล (v) ขาออก = (${(data.out_dailyPcu).toLocaleString()}x${data.out_directionalSplit}x${data.kFactor})/(${data.phf}x${data.out_numLanes}) = ${data.out_flowRate} PCU/ชม./ช่อง`),
+                            new Paragraph(`ปริมาณจราจรรายวัน (V) = ${(data.in_dailyPcu).toLocaleString(undefined, {maximumFractionDigits:0})} PCU/วัน`),
+                            new Paragraph(`อัตราการไหล (v) ขาเข้า = (${(data.in_dailyPcu).toLocaleString(undefined, {maximumFractionDigits:0})}x${data.in_directionalSplit}x${data.kFactor})/(${data.phf}x${data.in_numLanes}) = ${data.in_flowRate} PCU/ชม./ช่อง`),
+                            new Paragraph(`อัตราการไหล (v) ขาออก = (${(data.out_dailyPcu).toLocaleString(undefined, {maximumFractionDigits:0})}x${data.out_directionalSplit}x${data.kFactor})/(${data.phf}x${data.out_numLanes}) = ${data.out_flowRate} PCU/ชม./ช่อง`),
                             new Paragraph({ text: "" }),
                             new Paragraph({ text: `ขั้นตอนที่ 4: การวิเคราะห์ค่าความจุ (Capacity) ต่อทิศทาง`, heading: HeadingLevel.HEADING_2 }),
                             new Paragraph(`ความจุทางหลวงเฉลี่ย ทิศทางขาเข้า พิจารณา FFS = ${data.in_ffs} กม./ชม. จะได้ c = ${Math.round(data.in_capacity/data.in_numLanes).toLocaleString()} PCU/ชม./ช่อง`),
@@ -1296,3 +980,4 @@
     </script>
 </body>
 </html>
+
